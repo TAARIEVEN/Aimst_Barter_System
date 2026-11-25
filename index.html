@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIMST Prestige Market | We Listen, We Create, You Enjoy!</title>
+  <link rel="icon" href="market-logo.png">
+  
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AIMST Market">
+  <link rel="apple-touch-icon" href="market-logo.png">
+  <meta name="theme-color" content="#059669" id="metaThemeColor">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #a3c3e6; color: #38021d; }
+    .grab-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+    .grab-card:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04); border-color: #cbd5e1; }
+    .boosted-card { border: 2px solid #f59e0b !important; background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%) !important; box-shadow: 0 8px 20px -4px rgba(245, 158, 11, 0.25) !important; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .nav-bottom-btn { transition: all 0.2s ease-in-out; }
+    .nav-bottom-btn.active-tab { color: #059669; }
+    .nav-bottom-btn.active-pro-tab { color: #7c3aed; }
+    .nav-bottom-btn.disabled-tab { opacity: 0.4; cursor: not-allowed; filter: grayscale(80%); }
+  </style>
+</head>
+<body id="appBodyTag" class="min-h-screen font-sans selection:bg-amber-400 selection:text-slate-950 pb-32">
+
+  <!-- WELCOME POPUP MODAL -->
+  <div id="welcomeModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-300">
+    <div class="bg-white text-slate-900 rounded-3xl max-w-sm w-full p-6 sm:p-8 relative shadow-2xl text-center border-2 border-emerald-500/20 overflow-hidden">
+      <button onclick="window.closeWelcomeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-sm transition-all z-20">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="relative z-10 flex flex-col items-center mb-4 pt-2">
+        <img src="market-logo.png" alt="APM Logo" class="w-16 h-16 object-contain mb-2 drop-shadow-md" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400'">
+        <h2 class="text-lg font-black tracking-wider text-slate-900 uppercase">AIMST PRESTIGE MARKET</h2>
+      </div>
+      <div class="relative z-10 mb-4">
+        <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none mb-2">WELCOME TO APM!</h3>
+        <div id="welcomeBadgeDiv" class="inline-block px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-700 font-bold text-xs sm:text-sm border border-emerald-200">Your campus shopping, made easy.</div>
+      </div>
+      <p class="relative z-10 text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 px-2">Discover great finds, study materials, belongings rentals, and campus announcements directly from verified students.</p>
+      <p class="relative z-10 text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 px-2"> great finds, study materials, belongings rentals, and campus announcements directly from verified students.</p>
+      <button id="welcomeStartBtn" onclick="window.closeWelcomeModal()" class="relative z-10 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-sm shadow-xl shadow-emerald-600/20 flex items-center justify-center space-x-3 transition-all hover:scale-[1.02]">
+        <i class="fa-solid fa-cart-shopping text-base"></i>
+        <span class="tracking-wider uppercase">START SHOPPING</span>
+        <i class="fa-solid fa-arrow-right text-xs"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- DAILY RANDOM BOOSTED AD POPUP MODAL -->
+  <div id="randomBoostPopupModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-3">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 relative shadow-2xl text-center border-2 border-amber-400 overflow-hidden">
+      <button onclick="closeRandomBoostPopup()" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-xs transition-all z-20"><i class="fa-solid fa-xmark"></i></button>
+      <div class="absolute top-2 left-2 bg-amber-500 text-slate-950 font-black text-[9px] py-0.5 px-2 rounded-md uppercase tracking-wider shadow-sm flex items-center space-x-1 z-10">
+        <i class="fa-solid fa-bolt"></i><span>FEATURED SPONSORED AD</span>
+      </div>
+      <div id="randomBoostPopupContent" class="mt-4"></div>
+    </div>
+  </div>
+
+  <!-- INSTALL PWA PROMPT BANNER -->
+  <div id="installBanner" class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white py-2 px-3 text-center text-xs font-medium flex flex-wrap items-center justify-center gap-2 sm:gap-4 border-b border-emerald-700 shadow-md transition-all">
+    <div class="flex items-center space-x-1.5"><i id="installBannerIcon" class="fa-solid fa-mobile-screen-button text-emerald-400"></i><span>Install APM App on Android, iPhone & Laptop:</span></div>
+    <div class="flex items-center space-x-2">
+      <button onclick="openIOSInstallModal()" class="px-3 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-[11px] border border-slate-600 shadow-sm transition-all flex items-center space-x-1"><i class="fa-brands fa-apple"></i><span>iPhone Guide</span></button>
+      <button id="installAppBtn" onclick="triggerPWAInstall()" class="px-3 py-1 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[11px] shadow-sm transition-all flex items-center space-x-1"><i class="fa-solid fa-download"></i><span>Install PWA</span></button>
+    </div>
+  </div>
+
+  <!-- LIVE SYNC STATUS BANNER -->
+  <div id="liveSyncBanner" class="bg-emerald-50 border-b border-emerald-200 py-1.5 px-3 text-center text-[10px] sm:text-[11px] font-medium text-emerald-900 flex flex-wrap items-center justify-center gap-2 sm:gap-6 transition-all">
+    <div class="flex items-center space-x-1.5"><span id="liveDotSpan" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span class="font-bold">AIMST Firestore Sync Live</span></div>
+    <div id="syncBorder1" class="flex items-center space-x-1 border-l border-emerald-300 pl-2"><i id="syncStoreIcon" class="fa-solid fa-store text-emerald-600 text-[9px]"></i><span id="statActiveCount" class="font-black">0</span> Active Listings</div>
+    <div id="syncBorder2" class="flex items-center space-x-1 border-l border-emerald-300 pl-2"><i id="syncCheckIcon" class="fa-solid fa-circle-check text-emerald-600 text-[9px]"></i><span id="statSoldsCount" class="font-black">0</span> Items Sold</div>
+  </div>
+
+  <!-- MAIN HEADER / NAVBAR -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchMainTab('home')">
+        <img src="market-logo.png" alt="Logo" class="w-9 h-9 sm:w-10 sm:h-10 object-contain drop-shadow" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400'">
+        <div>
+          <h1 class="font-black text-xs sm:text-base text-slate-900 tracking-tight leading-none">AIMST PRESTIGE MARKET</h1>
+          <p id="navSubTitle" class="text-[7px] sm:text-[8px] uppercase tracking-widest text-emerald-600 font-bold leading-none mt-0.5 truncate">Student Marketplace & Study Hub</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button id="sellerManagerNavBtn" onclick="openSellerManagerModal()" class="hidden px-3 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-black text-xs items-center space-x-1 border border-amber-300 shadow-sm"><i class="fa-solid fa-shield-halved"></i><span class="hidden sm:inline">Admin Hub</span></button>
+        <button id="headerAuthBtn" onclick="handleAuthClick()" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs flex items-center space-x-1.5 shadow-sm transition-all"><i id="headerAuthIcon" class="fa-solid fa-right-to-bracket"></i><span id="headerAuthText">Login</span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-6xl mx-auto px-4 pt-4">
+
+    <!-- HOME TAB VIEW PAGE -->
+    <div id="viewHome" class="tab-view-page">
+      <div class="rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 text-white p-6 sm:p-10 mb-6 shadow-xl relative overflow-hidden border border-emerald-500/20">
+        <div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(#34d399_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+        <div class="relative z-10 max-w-xl">
+          <h2 class="text-xl sm:text-3xl font-black tracking-tight mb-2">We Listen, We Create, You Enjoy!</h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5">A marketplace for AIMST students and staff to buy, sell, and rent items easily and safely.</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <button onclick="openAddListingModal()" class="px-5 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs shadow-lg shadow-emerald-500/30 transition-all flex items-center space-x-2"><i class="fa-solid fa-plus"></i><span>Post Listing Now</span></button>
+            <button onclick="scrollToClubs()" class="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs backdrop-blur-md transition-all border border-white/20 flex items-center space-x-1.5"><i class="fa-solid fa-users"></i><span>Campus Clubs Hub</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-4 mb-6">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
+          <input type="text" id="searchInput" oninput="filterListings()" placeholder="Search items, textbooks, calculators, hostel gear, event tickets..." class="w-full bg-white border border-slate-200 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 shadow-sm">
+        </div>
+
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+          <button onclick="setCategory('all', this)" class="category-btn grab-card p-2.5 rounded-2xl flex flex-col items-center justify-center text-center transition-all group bg-emerald-50 border-emerald-300 shadow-sm"><i class="fa-solid fa-store text-emerald-600 text-base mb-1"></i><span class="text-[10px] font-bold text-slate-800">All Items</span></button>
+          <button onclick="setCategory('academic', this)" class="category-btn grab-card p-2.5 rounded-2xl flex flex-col items-center justify-center text-center transition-all group"><i class="fa-solid fa-book-open text-emerald-600 text-base mb-1"></i><span class="text-[10px] font-bold text-slate-800">Academic</span></button>
+          <button onclick="setCategory('rentals', this)" class="category-btn grab-card p-2.5 rounded-2xl flex flex-col items-center justify-center text-center transition-all group"><i class="fa-solid fa-hand-holding-hand text-emerald-600 text-base mb-1"></i><span class="text-[10px] font-bold text-slate-800">Rentals</span></button>
+          <button onclick="setCategory('tech', this)" class="category-btn grab-card p-2.5 rounded-2xl flex flex-col items-center justify-center text-center transition-all group"><i class="fa-solid fa-laptop text-emerald-600 text-base mb-1"></i><span class="text-[10px] font-bold text-slate-800">Tech & Gadgets</span></button>
+          <button onclick="setCategory('hostel', this)" class="category-btn grab-card p-2.5 rounded-2xl flex flex-col items-center justify-center text-center transition-all group"><i class="fa-solid fa-house-chimney text-emerald-600 text-base mb-1"></i><span class="text-[10px] font-bold text-slate-800">Hostel Gear</span></button>
+          <button onclick="setCategory('services', this)" class="category-btn grab-card p-2.5 rounded-2xl flex flex-col items-center justify-center text-center transition-all group"><i class="fa-solid fa-print text-emerald-600 text-base mb-1"></i><span class="text-[10px] font-bold text-slate-800">Services</span></button>
+        </div>
+
+        <div id="courseFilterSection" class="bg-white p-3.5 rounded-2xl border-2 border-emerald-500/40 mb-4 shadow-lg hidden transition-all">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center space-x-2"><i id="courseFilterIcon" class="fa-solid fa-book-medical text-emerald-600 text-sm"></i><span class="text-xs font-black text-slate-900 uppercase">Filter Academic Notes by AIMST Programme / Course</span></div>
+            <button id="resetCourseFiltersBtn" onclick="clearCourseFilters()" class="text-[10px] font-bold text-emerald-700 hover:underline">Reset Filters</button>
+          </div>
+          <div class="relative mb-2">
+            <input type="text" id="courseSearchInput" oninput="renderCourseFilterPills()" placeholder="Search course name or code (e.g., MBBS, CS, Nursing, Physiotherapy)..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-500">
+          </div>
+          <div id="coursePillsContainer" class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+
+      <!-- SPONSORED ADS ELECTRIC-GATE CONTINUOUS SLIDER -->
+      <div id="sponsoredSection" class="mb-8 hidden overflow-hidden">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center space-x-2"><span class="w-6 h-6 rounded-lg bg-amber-500 text-slate-950 flex items-center justify-center font-black text-xs shadow-sm"><i class="fa-solid fa-bolt"></i></span><h3 class="text-xs sm:text-sm font-black text-slate-900 uppercase tracking-wide">Sponsored Featured Listings</h3></div>
+          <span class="text-[10px] text-amber-600 font-bold bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">🚀 Promoted</span>
+        </div>
+        <div id="sponsoredCarousel" class="flex space-x-3 overflow-x-hidden no-scrollbar py-2 pt-1 cursor-grab"></div>
+      </div>
+
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="listingCount" class="text-xs sm:text-sm font-black text-slate-800 uppercase tracking-wide">Showing all available items</h3>
+        <button onclick="toggleCourseFilterPanel()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center space-x-1.5 transition-all"><i class="fa-solid fa-filter text-emerald-600 text-[10px]"></i><span>Filter Courses</span></button>
+      </div>
+
+      <div id="listingsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4"></div>
+
+      <div id="clubsSection" class="mt-12 pt-8 border-t border-slate-200">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-slate-900">AIMST Campus Clubs & Societies</h3>
+            <p class="text-xs text-slate-500">Connect with student leaders and join official WhatsApp community groups.</p>
+          </div>
+          <button id="addClubBtn" onclick="openAddClubModal()" class="hidden px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md transition-all flex items-center space-x-1.5"><i class="fa-solid fa-plus"></i><span>Add Club</span></button>
+        </div>
+        <div id="clubsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"></div>
+      </div>
+    </div>
+
+    <!-- MY PRODUCTS TAB VIEW PAGE -->
+    <div id="viewMyProducts" class="tab-view-page hidden">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-base sm:text-lg font-black text-slate-900">My Listed Products & Rentals</h3>
+          <p class="text-xs text-slate-500">Manage your active posts, edit listings (Pro), boost visibility, or delete items.</p>
+        </div>
+        <button onclick="openAddListingModal()" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md"><i class="fa-solid fa-plus mr-1"></i> Add Product</button>
+      </div>
+      <div id="myProductsTabContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+    </div>
+
+    <!-- FAVOURITE / WISHLIST TAB VIEW PAGE -->
+    <div id="viewWishlist" class="tab-view-page hidden">
+      <div class="mb-4">
+        <h3 class="text-base sm:text-lg font-black text-slate-900">Saved Favourites</h3>
+        <p class="text-xs text-slate-500">Quickly access items you saved for later.</p>
+      </div>
+      <div id="wishlistTabContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+    </div>
+
+    <!-- ME / PROFILE TAB VIEW PAGE -->
+    <div id="viewMe" class="tab-view-page hidden">
+      <div class="max-w-md mx-auto grab-card rounded-3xl p-6 border border-slate-200 text-center">
+        <div class="w-20 h-20 rounded-full bg-emerald-100 text-emerald-800 font-black text-2xl flex items-center justify-center mx-auto mb-3 shadow-inner"><i class="fa-solid fa-user-graduate"></i></div>
+        <h3 id="meTabUsername" class="text-lg font-black text-slate-900 mb-0.5">Username</h3>
+        <p id="meTabEmail" class="text-xs text-slate-500 mb-4">email@apm.com</p>
+        <div class="mb-4">
+          <span id="meTabTierBadge" class="inline-block px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-800 font-extrabold text-xs border border-emerald-300 mb-3 uppercase tracking-wider">VERIFIED SELLER/BUYER (FREE TIER)</span>
+          <p class="text-xs text-slate-600">Active Listings Usage: <span id="meTabListingCount" class="font-bold text-slate-900">0 / 3 Used</span></p>
+        </div>
+        <div id="meTabProCountdownContainer" class="hidden mb-4 bg-purple-50 p-3 rounded-2xl border border-purple-200">
+          <p class="text-[11px] font-bold text-purple-900">👑 Pro Tier Countdown Remaining:</p>
+          <p id="meTabProCountdownTimer" class="text-sm font-black text-purple-700">--</p>
+        </div>
+        <div class="space-y-2">
+          <button id="meTabUpgradeBtn" onclick="openUpgradeModal()" class="w-full py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-black text-xs shadow-md transition-all flex items-center justify-center space-x-2"><i class="fa-solid fa-crown text-sm"></i><span>Upgrade to Pro Tier (RM5/mo - 7 Listings)</span></button>
+          <button onclick="performLogout()" class="w-full py-2.5 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs transition-all border border-rose-200">Log Out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT APM & FOUNDERS TAB VIEW PAGE -->
+    <div id="viewAbout" class="tab-view-page hidden">
+      <div class="max-w-4xl mx-auto space-y-6">
+        <div class="grab-card rounded-3xl p-6 sm:p-8 border border-slate-200 text-center relative overflow-hidden">
+          <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          <h3 class="text-xs font-black uppercase tracking-widest text-emerald-600 mb-1">Architects of Innovation</h3>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900 mb-6">Introducing the APM Founders</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            <!-- Founder 1: Keventhiran -->
+            <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center">
+              <img src="founder1.jpg" alt="Keventhiran" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover shadow-md mb-3 border-2 border-emerald-500/30" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400'">
+              <h4 class="font-black text-sm text-slate-900">Keventhiran Devandren</h4>
+              <p class="text-[11px] font-bold text-emerald-700 mb-2">Founder & CEO • Computer Science</p>
+              <p class="text-[11px] text-slate-600 leading-relaxed text-center">Lead Backend Architect & Database Security Specialist managing APM server infrastructure and core system operations.</p>
+            </div>
+
+            <!-- Founder 2: Taarisini -->
+            <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center">
+              <img src="founder2.jpg" alt="Taarisini" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover shadow-md mb-3 border-2 border-emerald-500/30" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400'">
+              <h4 class="font-black text-sm text-slate-900">Taarisini Selvakumar</h4>
+              <p class="text-[11px] font-bold text-emerald-700 mb-2">Co-Founder & Co-Architect • Computer Science</p>
+              <p class="text-[11px] text-slate-600 leading-relaxed text-center">Co-Founder & Core Strategy Lead driving student engagement, platform architecture, and campus adoption.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUPPORTERS & CONTRIBUTORS GALLERY -->
+        <div class="grab-card rounded-3xl p-6 sm:p-8 border border-slate-200">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-base font-black text-slate-900 flex items-center space-x-2"><i class="fa-solid fa-award text-amber-500"></i><span>SUPPORTERS & CONTRIBUTORS GALLERY</span></h3>
+              <p class="text-xs text-slate-500">Celebrating everyone who contributed ideas and suggestions to improve APM.</p>
+            </div>
+            <button id="addAboutContribBtn" onclick="openAddContributorModal()" class="hidden px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all flex items-center space-x-1"><i class="fa-solid fa-plus"></i><span>Add Contributor</span></button>
+          </div>
+          <div id="aboutContributorsList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+        </div>
+
+        <!-- WANNA SHARE AN IDEA? CONTACT OUR FOUNDER BANNER CARD -->
+        <div class="rounded-3xl bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-6 sm:p-8 shadow-xl border border-emerald-500/30 text-center relative overflow-hidden">
+          <div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(#34d399_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+          <div class="relative z-10 max-w-lg mx-auto">
+            <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-black uppercase tracking-wider mb-2 border border-emerald-400/30">💡 Got a Feature Idea or Suggestion?</span>
+            <h3 class="text-lg sm:text-xl font-black mb-2">Wanna Share an Idea? Contact Our Founders!</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-5">Have a brilliant concept to enhance AIMST Prestige Market or want to collaborate? Reach out directly to Founder Keven and Co-Founder Taarisini via WhatsApp!</p>
+            <div class="flex items-center justify-center">
+              <a href="https://wa.me/60126384757?text=Hi%20Founders%20Keven%20and%20Taarisini,%20I%20have%20an%20idea%20for%20AIMST%20Prestige%20Market:" target="_blank" class="px-6 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs shadow-lg shadow-emerald-500/30 transition-all flex items-center space-x-2">
+                <i class="fa-brands fa-whatsapp text-sm"></i><span>Chat with Founders</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SHOPEE STYLE BOTTOM NAVIGATION BAR -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-2xl py-2 px-2">
+    <div class="max-w-md mx-auto grid grid-cols-5 gap-1 text-center">
+      <button id="navBottomHome" onclick="switchMainTab('home')" class="nav-bottom-btn active-tab flex flex-col items-center justify-center py-1 rounded-xl"><i class="fa-solid fa-store text-base mb-0.5"></i><span class="text-[9px] font-bold tracking-wide">Home</span></button>
+      <button id="navBottomMyProducts" onclick="switchMainTab('myproducts')" class="nav-bottom-btn disabled-tab flex flex-col items-center justify-center py-1 rounded-xl"><i class="fa-solid fa-box-archive text-base mb-0.5"></i><span class="text-[9px] font-bold tracking-wide">My Product</span></button>
+      <button id="navBottomWishlist" onclick="switchMainTab('wishlist')" class="nav-bottom-btn disabled-tab flex flex-col items-center justify-center py-1 rounded-xl relative"><i class="fa-solid fa-heart text-base mb-0.5"></i><span class="text-[9px] font-bold tracking-wide">Favourite</span><span id="wishlistCountBadge" class="absolute top-0 right-4 px-1 bg-rose-500 text-white text-[8px] font-black rounded-full">0</span></button>
+      <button id="navBottomMe" onclick="switchMainTab('me')" class="nav-bottom-btn disabled-tab flex flex-col items-center justify-center py-1 rounded-xl"><i class="fa-solid fa-user text-base mb-0.5"></i><span class="text-[9px] font-bold tracking-wide">Me</span></button>
+      <button id="navBottomAbout" onclick="switchMainTab('about')" class="nav-bottom-btn flex flex-col items-center justify-center py-1 rounded-xl"><i class="fa-solid fa-circle-info text-base mb-0.5"></i><span class="text-[9px] font-bold tracking-wide">About APM</span></button>
+    </div>
+  </nav>
+
+  <!-- FLOATING POST LISTING BUTTON -->
+  <div id="floatingPostBtnContainer" class="fixed right-6 bottom-20 z-30">
+    <button id="floatingPostBtn" onclick="openAddListingModal()" style="display: none;" class="flex items-center space-x-2 px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-2xl shadow-emerald-600/40 ring-2 ring-white hover:scale-105 transition-all text-xs sm:text-sm">
+      <i class="fa-solid fa-plus text-base"></i><span>Post Listing</span>
+    </button>
+  </div>
+
+  <!-- AUTH MODAL -->
+  <div id="authModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative shadow-2xl">
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="text-center mb-5">
+        <h3 class="text-lg font-black text-slate-900">APM Verified Access</h3>
+        <p class="text-xs text-slate-500">Login or register to list items & manage products.</p>
+      </div>
+      <div class="flex space-x-1 bg-slate-100 p-1 rounded-2xl mb-4">
+        <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-1.5 rounded-xl text-xs font-extrabold bg-white text-slate-900 shadow-sm transition-all">Login</button>
+        <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-1.5 rounded-xl text-xs font-extrabold text-slate-500 hover:text-slate-900 transition-all">Register</button>
+      </div>
+      <div id="loginFormContainer" class="space-y-3">
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Student Username / Email</label><input type="text" id="loginUser" placeholder="e.g. keventhiran_e25101420" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-500"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Password</label><input type="password" id="loginPass" placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-500"></div>
+        <div id="loginError" class="text-[11px] text-rose-500 font-bold hidden"></div>
+        <button onclick="handleLogin()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md">Login to APM</button>
+      </div>
+      <div id="registerFormContainer" class="space-y-3 hidden">
+        <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-200 text-left">
+          <p class="text-[11px] font-bold text-emerald-900 mb-1"><i class="fa-solid fa-circle-info text-emerald-600"></i> Registration Criteria:</p>
+          <p class="text-[10px] text-emerald-800 leading-relaxed">Do <strong>NOT</strong> use personal Gmail. Your email <strong>MUST</strong> follow the format: <code class="bg-emerald-100 px-1 py-0.5 rounded font-bold">Firstname_matrixID@apm.com</code> (e.g., <span class="font-semibold">keventhiran_e25101420@apm.com</span>). If criteria are not met, registration will fail!</p>
+        </div>
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Student Email (Firstname_matrixID@apm.com)</label><input type="text" id="regUser" placeholder="e.g. keventhiran_e25101420" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-500"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Create Password</label><input type="password" id="regPass" placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-500"></div>
+        <div id="registerError" class="text-[11px] text-rose-500 font-bold hidden"></div>
+        <button onclick="handleRegister()" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md">Register Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD LISTING MODAL -->
+  <div id="addListingModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 relative shadow-2xl my-8">
+      <button onclick="closeAddListingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="mb-4">
+        <h3 class="text-base font-black text-slate-900">Post New Item or Rental</h3>
+        <p id="sellerTierIndicator" class="text-xs text-emerald-700 font-bold">Free Tier: Up to 3 Listings</p>
+      </div>
+      <form id="listingForm" onsubmit="handlePostListing(event)" class="space-y-3 text-left">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Category</label>
+          <select id="categorySelect" onchange="onCategoryChange()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-500">
+            <option value="academic">Academic Notes / Study Materials</option>
+            <option value="rentals">Belongings Rental (Calculators, Blazers, etc.)</option>
+            <option value="tech">Tech & Gadgets</option>
+            <option value="hostel">Hostel Essentials</option>
+            <option value="services">Student Services</option>
+            <option value="events">Campus Events & Tickets</option>
+          </select>
+        </div>
+        <div id="courseSelectContainer">
+          <label id="courseSelectLabel" class="block text-[11px] font-bold text-emerald-800 uppercase tracking-wider mb-1">Select AIMST Programme / Course</label>
+          <select id="itemCourseSelect" class="w-full bg-emerald-50 border border-emerald-300 rounded-xl px-3.5 py-2.5 text-xs text-emerald-950 font-bold focus:outline-none focus:border-emerald-500"></select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Item Title</label>
+          <input type="text" id="itemTitle" required placeholder="e.g., DBMS Semester 3 Lecture Notes" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-500">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label id="priceLabel" class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Price (MYR)</label>
+            <input type="number" step="0.01" id="itemPrice" required placeholder="0.00" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">WhatsApp Contact</label>
+            <input type="text" id="itemContact" required placeholder="60123456789" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Product Photo</label>
+          <input type="file" id="itemImageFile" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+          <div id="imagePreviewContainer" class="mt-2 hidden">
+            <img id="imagePreview" src="" alt="Preview" class="w-20 h-20 rounded-xl object-cover border border-slate-200">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Detailed Description</label>
+          <textarea id="itemDesc" rows="3" required placeholder="Describe condition, pickup location, notes coverage..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-500"></textarea>
+        </div>
+        <button type="submit" id="publishListingSubmitBtn" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center space-x-2">
+          <span>Publish Listing</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDIT LISTING MODAL (PRO TIER EXCLUSIVE) -->
+  <div id="editListingModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 relative shadow-2xl my-8">
+      <button onclick="closeEditListingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="mb-4">
+        <h3 class="text-base font-black text-slate-900 flex items-center space-x-2"><i class="fa-solid fa-pen-to-square text-purple-600"></i><span>Edit Product Listing (Pro Tier)</span></h3>
+        <p class="text-xs text-purple-700 font-bold">Update your product details instantly.</p>
+      </div>
+      <form id="editListingForm" onsubmit="handleUpdateListing(event)" class="space-y-3 text-left">
+        <input type="hidden" id="editItemId">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Item Title</label>
+          <input type="text" id="editItemTitle" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-purple-500">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Price (MYR)</label>
+            <input type="number" step="0.01" id="editItemPrice" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-purple-500">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">WhatsApp Contact</label>
+            <input type="text" id="editItemContact" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-purple-500">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Detailed Description</label>
+          <textarea id="editItemDesc" rows="3" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-purple-500"></textarea>
+        </div>
+        <button type="submit" id="updateListingSubmitBtn" class="w-full py-3 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center space-x-2">
+          <span>Save Changes</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PRO TIER LOCKED EDIT POPUP MODAL -->
+  <div id="lockedEditModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative text-center shadow-2xl border-2 border-amber-400">
+      <button onclick="closeLockedEditModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner"><i class="fa-solid fa-lock"></i></div>
+      <h3 class="text-base font-black text-slate-900 mb-1">Pro Tier Subscription Required</h3>
+      <p class="text-xs text-slate-600 mb-4">Editing products is an exclusive feature for **APM Pro Tier** subscribers. Upgrade now for just **RM 5.00 / month** to unlock editing, 7 active listings, and more!</p>
+      <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 mb-4">
+        <p class="text-[11px] font-bold text-slate-800 mb-2">Scan TNG eWallet QR to Pay RM 5.00:</p>
+        <div class="w-36 h-36 mx-auto bg-white p-2 rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden">
+          <img src="tng.png" alt="TNG QR" class="w-full h-full object-contain" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-qrcode text-6xl text-slate-800\'></i>'">
+        </div>
+        <p class="text-[10px] text-slate-500 mt-2">DuitNow / TNG Reference: Founder Keven</p>
+      </div>
+      <button onclick="requestProUpgradeFromLockedEdit()" class="w-full py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-black text-xs shadow-lg shadow-amber-500/30">I Have Paid RM5 — Send Verification</button>
+    </div>
+  </div>
+
+  <!-- ADD CLUB MODAL -->
+  <div id="addClubModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 relative shadow-2xl">
+      <button onclick="closeAddClubModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <h3 class="text-base font-black text-slate-900 mb-4">Add Campus Club / Society</h3>
+      <form id="clubForm" onsubmit="handlePostClub(event)" class="space-y-3 text-left">
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Club Name</label><input type="text" id="clubName" required placeholder="e.g. AIMST IT Society" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Category / Focus</label><input type="text" id="clubCategory" required placeholder="e.g. Academic & Technology" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">WhatsApp Group Link / Number</label><input type="text" id="clubContact" required placeholder="https://chat.whatsapp.com/..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Club Logo Image</label><input type="file" id="clubLogoFile" accept="image/*" class="w-full text-xs text-slate-500"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Description</label><textarea id="clubDesc" rows="2" required placeholder="What does this club do?" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800"></textarea></div>
+        <button type="submit" id="saveClubSubmitBtn" class="w-full py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center space-x-2"><span>Save Club</span></button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADD CONTRIBUTOR MODAL -->
+  <div id="addContributorModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 relative shadow-2xl">
+      <button onclick="closeAddContributorModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <h3 class="text-base font-black text-slate-900 mb-4">Add APM Contributor / Helper</h3>
+      <form id="contributorForm" onsubmit="handlePostContributor(event)" class="space-y-3 text-left">
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Full Name</label><input type="text" id="contribName" required placeholder="e.g., Sudarshan Parthipan" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Diploma / Programme</label><input type="text" id="contribProgram" required placeholder="e.g., Diploma in Biotechnology, Aimst University" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Upload Photo (Optional)</label><input type="file" id="contribPhotoFile" accept="image/*" class="w-full text-xs text-slate-500"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Contribution / Idea Shared</label><textarea id="contribDesc" rows="3" required placeholder="e.g., Suggested segregating study materials into general to specific..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800"></textarea></div>
+        <button type="submit" id="saveContribSubmitBtn" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center space-x-2"><span>Add to Wall of Fame</span></button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN SELLER MANAGER MODAL -->
+  <div id="sellerManagerModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 relative shadow-2xl my-8">
+      <button onclick="closeSellerManagerModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      
+      <!-- HEADER WITH FOUNDER RED QUOTA BUTTON -->
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+        <h3 class="text-base font-black text-slate-900"><i class="fa-solid fa-shield-halved text-amber-500"></i> Founder Admin Hub</h3>
+        <button onclick="openFounderQuotaModal()" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs shadow-md flex items-center space-x-1.5 transition-all animate-pulse"><i class="fa-solid fa-database"></i><span>Live Quota (GitHub)</span></button>
+      </div>
+      <p class="text-xs text-slate-500 mb-4">Manage pending student verifications, pro upgrades, and ad boosts.</p>
+
+      <div class="space-y-6 max-h-[70vh] overflow-y-auto pr-2">
+        <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200">
+          <div class="flex items-center justify-between mb-2"><h4 class="font-bold text-xs text-amber-900 uppercase">Pending Ad Boost Requests</h4><span id="pendingBoostsCountBadge" class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 text-[10px] font-black">0 Pending</span></div>
+          <div class="mb-2"><input type="text" id="searchPendingBoostsInput" oninput="renderSellerManagerTable()" placeholder="Search pending boosts..." class="w-full bg-white border border-amber-300 rounded-xl px-3 py-1.5 text-xs"></div>
+          <div id="pendingBoostsContainer" class="space-y-2"></div>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
+          <div class="flex items-center justify-between mb-2"><h4 class="font-bold text-xs text-purple-900 uppercase">Pending Pro Tier Upgrades (RM5)</h4><span id="pendingProCountBadge" class="px-2 py-0.5 rounded-full bg-purple-200 text-purple-900 text-[10px] font-black">0 Pending</span></div>
+          <div class="mb-2"><input type="text" id="searchPendingProInput" oninput="renderSellerManagerTable()" placeholder="Search pending pro upgrades..." class="w-full bg-white border border-purple-300 rounded-xl px-3 py-1.5 text-xs"></div>
+          <div id="pendingProContainer" class="space-y-2"></div>
+        </div>
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div class="flex items-center justify-between mb-2"><h4 class="font-bold text-xs text-slate-900 uppercase">Pending Student Verifications</h4><span id="pendingCountBadge" class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-800 text-[10px] font-black">0 Pending</span></div>
+          <div class="mb-2"><input type="text" id="searchPendingStudentsInput" oninput="renderSellerManagerTable()" placeholder="Search pending students..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs"></div>
+          <div id="pendingSellersContainer" class="space-y-2"></div>
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-slate-900 uppercase mb-2">All Verified Users & Sellers</h4>
+          <div class="mb-2"><input type="text" id="sellerSearchInput" oninput="renderSellerManagerTable()" placeholder="Search verified users..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs"></div>
+          <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 text-slate-700"><tr><th class="p-3">User</th><th class="p-3 text-center">Tier Status</th><th class="p-3 text-right">Actions</th></tr></thead>
+              <tbody id="sellersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOUNDER LIVE QUOTA MODAL -->
+  <div id="founderQuotaModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative shadow-2xl border-2 border-rose-500 text-center">
+      <button onclick="closeFounderQuotaModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner"><i class="fa-solid fa-chart-pie"></i></div>
+      <h3 class="text-base font-black text-slate-900 mb-1">GitHub & Firestore Live Quota</h3>
+      <p class="text-[11px] text-slate-500 mb-4">Daily operation counts & resets based on GitHub repository & Firebase limits.</p>
+      
+      <div class="space-y-2 mb-5 text-left">
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-700"><i class="fa-solid fa-book-open text-emerald-600 mr-1"></i> READ Operations:</span>
+          <span id="quotaReadCount" class="text-xs font-black text-emerald-700">0 / 50,000</span>
+        </div>
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-700"><i class="fa-solid fa-pen text-amber-600 mr-1"></i> WRITE Operations:</span>
+          <span id="quotaWriteCount" class="text-xs font-black text-amber-700">0 / 20,000</span>
+        </div>
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-700"><i class="fa-solid fa-trash text-rose-600 mr-1"></i> DELETE Operations:</span>
+          <span id="quotaDeleteCount" class="text-xs font-black text-rose-700">0 / 20,000</span>
+        </div>
+      </div>
+
+      <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-left mb-4">
+        <p class="text-[10px] text-amber-900 font-bold">ℹ️ Automatic Daily Reset Active:</p>
+        <p id="quotaResetInfo" class="text-[9px] text-amber-800 mt-0.5">Resets automatically at midnight UTC / local daily cycle.</p>
+      </div>
+
+      <button onclick="closeFounderQuotaModal()" class="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs">Close</button>
+    </div>
+  </div>
+
+  <!-- UPGRADE PRO TIER MODAL -->
+  <div id="upgradeModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative text-center shadow-2xl border-2 border-amber-400">
+      <button onclick="closeUpgradeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner"><i class="fa-solid fa-crown"></i></div>
+      <h3 class="text-base font-black text-slate-900 mb-1">Upgrade to APM Pro Tier</h3>
+      <p class="text-xs text-slate-600 mb-4">Unlock product editing, up to <strong>7 active listings</strong>, priority purple theme styling, and extended placement for just <strong>RM 5.00 / month</strong>!</p>
+      <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 mb-4">
+        <p class="text-[11px] font-bold text-slate-800 mb-2">Scan TNG eWallet QR to Pay RM 5.00:</p>
+        <div class="w-36 h-36 mx-auto bg-white p-2 rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden">
+          <img src="tng.png" alt="TNG QR" class="w-full h-full object-contain" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-qrcode text-6xl text-slate-800\'></i>'">
+        </div>
+        <p class="text-[10px] text-slate-500 mt-2">DuitNow / TNG Reference: Founder Keven</p>
+      </div>
+      <button onclick="requestProUpgrade()" class="w-full py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-black text-xs shadow-lg shadow-amber-500/30">I Have Paid RM5 — Send Verification to Founder</button>
+    </div>
+  </div>
+
+  <!-- BOOST BENEFITS MODAL -->
+  <div id="boostBenefitsModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative text-center shadow-2xl border-2 border-amber-400">
+      <button onclick="closeBoostBenefitsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mx-auto mb-3"><i class="fa-solid fa-rocket"></i></div>
+      <h3 class="text-base font-black text-slate-900 mb-1">Boost Your Product Ad</h3>
+      <p class="text-xs text-slate-600 mb-4">Pinned to the top carousel with an eye-catching gold badge. Only <strong>RM 1.00 / day</strong>!</p>
+      <button onclick="proceedToBoostDays()" class="w-full py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-black text-xs shadow-md">Continue to Boost</button>
+    </div>
+  </div>
+
+  <!-- BOOST DAYS MODAL -->
+  <div id="boostDaysModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative text-center shadow-2xl">
+      <button onclick="closeBoostDaysModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <h3 class="text-base font-black text-slate-900 mb-3">Select Boost Duration</h3>
+      <div class="mb-4 text-left">
+        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Number of Days (RM1.00 / day)</label>
+        <select id="boostDaysSelect" onchange="updateBoostCostDisplay()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-800">
+          <option value="1">1 Day - RM 1.00</option>
+          <option value="3">3 Days - RM 3.00</option>
+          <option value="7">7 Days - RM 7.00</option>
+          <option value="30">30 Days - RM 30.00</option>
+        </select>
+      </div>
+      <div class="mb-4 bg-amber-50 p-3 rounded-xl border border-amber-200 flex items-center justify-between">
+        <span class="text-xs font-bold text-amber-900">Total Cost:</span>
+        <span id="boostTotalDisplay" class="text-sm font-black text-amber-700">RM 1.00</span>
+      </div>
+      <button onclick="proceedToPaymentQR()" class="w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md">Proceed to Payment QR</button>
+    </div>
+  </div>
+
+  <!-- BOOST PAYMENT QR MODAL -->
+  <div id="boostModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative text-center shadow-2xl border-2 border-amber-400">
+      <button onclick="closeBoostModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <h3 class="text-base font-black text-slate-900 mb-1">Scan to Pay for Ad Boost</h3>
+      <p class="text-xs text-slate-600 mb-3">Amount Due: <strong id="tngPayAmountDisplay" class="text-emerald-700">RM 1.00</strong></p>
+      <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 mb-4">
+        <div class="w-36 h-36 mx-auto bg-white p-2 rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden">
+          <img src="tng.png" alt="TNG QR" class="w-full h-full object-contain" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-qrcode text-6xl text-slate-800\'></i>'">
+        </div>
+        <p class="text-[10px] text-slate-500 mt-2">TNG eWallet / DuitNow QR</p>
+      </div>
+      <button onclick="submitBoostRequest()" class="w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md">I Have Paid — Submit for Founder Approval</button>
+    </div>
+  </div>
+
+  <!-- RENEW BOOST EXPIRED MODAL -->
+  <div id="boostExpiredModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative text-center shadow-2xl border-2 border-amber-400">
+      <button onclick="closeBoostExpiredModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mx-auto mb-3"><i class="fa-solid fa-hourglass-end"></i></div>
+      <h3 class="text-base font-black text-slate-900 mb-1">Ad Boost Expired</h3>
+      <p id="boostExpiredText" class="text-xs text-slate-600 mb-5 leading-relaxed">Good day <span id="boostExpiredSellerName" class="font-bold text-slate-900">Seller</span>, your boosted product <strong id="boostExpiredItemTitle">Product</strong> has expired. Would you like to renew?</p>
+      <div class="grid grid-cols-2 gap-3">
+        <button onclick="closeBoostExpiredModal()" class="py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-all">Cancel</button>
+        <button onclick="renewExpiredBoost()" class="py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-black text-xs shadow-md transition-all">Renew Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOUNDER REAL-TIME PAYMENT ALERT MODAL -->
+  <div id="founderPaymentAlertModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative text-center shadow-2xl border-2 border-emerald-500">
+      <button onclick="closeFounderAlertModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-3"><i class="fa-solid fa-bell animate-bounce"></i></div>
+      <h3 class="text-base font-black text-slate-900 mb-1">New Payment Notification!</h3>
+      <p id="founderAlertText" class="text-xs text-slate-600 mb-5 leading-relaxed">A user has submitted a TNG payment proof for verification.</p>
+      <button onclick="openAdminHubFromAlert()" class="w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md transition-all">Open Founder Admin Hub</button>
+    </div>
+  </div>
+
+  <!-- iOS INSTALL PWA MODAL -->
+  <div id="iosInstallModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative text-center shadow-2xl">
+      <button onclick="closeIOSInstallModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <h3 class="text-base font-black text-slate-900 mb-2">Install on iPhone / iPad</h3>
+      <p class="text-xs text-slate-600 leading-relaxed mb-4">1. Tap the <i class="fa-solid fa-arrow-up-from-bracket text-emerald-600"></i> **Share** button in Safari.<br>2. Scroll down and select <i class="fa-solid fa-square-plus text-emerald-600"></i> **Add to Home Screen**.<br>3. Tap **Add** in the top right corner!</p>
+      <button onclick="closeIOSInstallModal()" class="w-full py-2.5 rounded-xl bg-slate-900 text-white font-bold text-xs">Got It</button>
+    </div>
+  </div>
+
+  <!-- SCRIPT MODULES - PART 1 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { initializeFirestore, memoryLocalCache, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, setDoc, query, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCJ_YKk_Js671vhIhR1dRYfEaQ1tWWbU3w",
+      authDomain: "aimst-prestige-market.firebaseapp.com",
+      projectId: "aimst-prestige-market",
+      storageBucket: "aimst-prestige-market.firebasestorage.app",
+      messagingSenderId: "964107797186",
+      appId: "1:964107797186:web:64dbcaab97d0a93ed4b15b",
+      measurementId: "G-CSRTLBPXLR"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const db = initializeFirestore(app, { localCache: memoryLocalCache() });
+    const auth = getAuth(app);
+    const storage = getStorage(app);
+
+    window.db = db; window.auth = auth; window.storage = storage;
+
+    const AIMST_COURSES = [
+      { id: 'general', name: 'General / Storybooks / Novels / Open Source', nick: 'General' },
+      { id: 'mbbs', name: 'Bachelor of Medicine and Bachelor of Surgery', nick: 'MBBS' },
+      { id: 'bds', name: 'Bachelor of Dental Surgery', nick: 'BDS' },
+      { id: 'bdt', name: 'Bachelor of Dental Technology (Honours)', nick: 'BDT' },
+      { id: 'bpharm', name: 'Bachelor of Pharmacy with Honours', nick: 'B.Pharm' },
+      { id: 'bipharma', name: 'Bachelor of Science in Industrial Pharmacy and Cosmetics with Honours', nick: 'Industrial Pharmacy' },
+      { id: 'physio', name: 'Bachelor in Physiotherapy (Honours)', nick: 'Physiotherapy' },
+      { id: 'nursing', name: 'Bachelor of Science (Honours) Nursing Science', nick: 'Nursing' },
+      { id: 'biomed', name: 'Bachelor of Science (Honours) Biomedical Science', nick: 'Biomedical' },
+      { id: 'dip_nursing', name: 'Diploma in Nursing', nick: 'Dip. Nursing' },
+      { id: 'dip_medical', name: 'Diploma in Medical and Health Science (Medical Assistant)', nick: 'Dip. Medical Assistant' },
+      { id: 'biotech', name: 'Bachelor of Science (Honours) Biotechnology', nick: 'Biotech' },
+      { id: 'bioinf', name: 'Bachelor of Science (Honours) Bioinformatics', nick: 'Bioinformatics' },
+      { id: 'cs', name: 'Bachelor of Computer Science (Honours)', nick: 'Computer Science (CS)' },
+      { id: 'se', name: 'Bachelor in Software Engineering (Honours)', nick: 'Software Engineering (SE)' },
+      { id: 'multimedia', name: 'Bachelor In Multimedia Technology (Honours)', nick: 'Multimedia Tech' },
+      { id: 'data_analytics', name: 'Bachelor in Information Systems (Data Analytics) (Honours)', nick: 'Data Analytics' },
+      { id: 'ece', name: 'Bachelor of Engineering (Hons) in Electronic & Computer Engineering', nick: 'Electronic Eng' },
+      { id: 'dip_it', name: 'Diploma in Information Technology', nick: 'Dip. IT' },
+      { id: 'bba', name: 'Bachelor of Business Administration (Hons)', nick: 'BBA' },
+      { id: 'accounting', name: 'Bachelor of Accountancy (Honours)', nick: 'Accountancy' },
+      { id: 'finance', name: 'Bachelor (Honours) in Finance and Management', nick: 'Finance' },
+      { id: 'marketing', name: 'Bachelor (Honours) in Business and Marketing', nick: 'Marketing' },
+      { id: 'found_biz', name: 'Foundation in Business', nick: 'Foundation in Business' },
+      { id: 'found_sci', name: 'Foundation in Science', nick: 'Foundation in Science' },
+      { id: 'found_arts', name: 'Foundation in Arts', nick: 'Foundation in Arts' }
+    ];
+
+    let allListings = [];
+    let allClubs = JSON.parse(localStorage.getItem('aimst_clubs')) || [];
+    let allSellers = JSON.parse(localStorage.getItem('aimst_sellers')) || [];
+    let soldCount = parseInt(localStorage.getItem('aimst_sold_count')) || 0;
+    let allContributors = [];
+    let deferredPrompt = null;
+    let currentUser = null;
+    let currentUserEmail = null;
+    let isFounderUser = false;
+    let currentCategory = 'all';
+    let selectedCourses = new Set();
+    let expandedDescIds = new Set();
+    let activeBoostItemId = null;
+    let carouselAnimId = null;
+    let profileCountdownInterval = null;
+    let expiredBoostQueue = [];
+
+    // Track GitHub & Firestore quota locally with daily reset check
+    function getTodayDateString() {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    function checkAndResetDailyQuota() {
+      const today = getTodayDateString();
+      const lastResetDate = localStorage.getItem('apm_quota_reset_date');
+      if (lastResetDate !== today) {
+        localStorage.setItem('apm_quota_reset_date', today);
+        localStorage.setItem('apm_op_reads', '0');
+        localStorage.setItem('apm_op_writes', '0');
+        localStorage.setItem('apm_op_deletes', '0');
+      }
+    }
+
+    function incrementQuota(type) {
+      checkAndResetDailyQuota();
+      let key = type === 'read' ? 'apm_op_reads' : type === 'write' ? 'apm_op_writes' : 'apm_op_deletes';
+      let current = parseInt(localStorage.getItem(key)) || 0;
+      localStorage.setItem(key, (current + 1).toString());
+    }
+
+    window.openFounderQuotaModal = function() {
+      checkAndResetDailyQuota();
+      const reads = parseInt(localStorage.getItem('apm_op_reads')) || 0;
+      const writes = parseInt(localStorage.getItem('apm_op_writes')) || 0;
+      const deletes = parseInt(localStorage.getItem('apm_op_deletes')) || 0;
+
+      document.getElementById('quotaReadCount').innerText = `${reads} / 50,000 (Free Daily Limit)`;
+      document.getElementById('quotaWriteCount').innerText = `${writes} / 20,000 (Free Daily Limit)`;
+      document.getElementById('quotaDeleteCount').innerText = `${deletes} / 20,000 (Free Daily Limit)`;
+      document.getElementById('quotaResetInfo').innerText = `Current Date: ${getTodayDateString()} (Auto resets at midnight)`;
+      
+      document.getElementById('founderQuotaModal').classList.remove('hidden');
+    };
+
+    window.closeFounderQuotaModal = function() {
+      document.getElementById('founderQuotaModal').classList.add('hidden');
+    };
+
+    // Request Notification Permission on load
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+
+    function playWishlistBellSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+      } catch(e) {}
+    }
+
+    function triggerDesktopNotification(title, body) {
+      playWishlistBellSound();
+      if ("Notification" in window && Notification.permission === "granted") {
+        try {
+          new Notification(title, {
+            body: body,
+            icon: "market-logo.png"
+          });
+        } catch(e) {}
+      }
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault(); deferredPrompt = e;
+      const installBtn = document.getElementById('installAppBtn');
+      if (installBtn) installBtn.style.display = 'flex';
+    });
+
+    window.triggerPWAInstall = async function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') { deferredPrompt = null; }
+      } else { alert("PWA installation is already available or installed!"); }
+    };
+
+    window.openIOSInstallModal = function() { document.getElementById('iosInstallModal').classList.remove('hidden'); };
+    window.closeIOSInstallModal = function() { document.getElementById('iosInstallModal').classList.add('hidden'); };
+
+    function getWishlistKey() { return currentUserEmail ? `aimst_wishlist_${currentUserEmail}` : 'aimst_wishlist_guest'; }
+    function getWishlist() { return JSON.parse(localStorage.getItem(getWishlistKey())) || []; }
+
+    window.switchMainTab = function(tabName) {
+      if (!currentUser && (tabName === 'myproducts' || tabName === 'wishlist' || tabName === 'me')) {
+        alert("🔒 Verification Required!\n\nTo access this tab, please log in as a Verified APM Seller/Buyer.");
+        openAuthModal(); return;
+      }
+      document.querySelectorAll('.tab-view-page').forEach(el => el.classList.add('hidden'));
+      const sellerProfile = allSellers.find(s => s.email.toLowerCase() === currentUserEmail);
+      const isPro = sellerProfile && sellerProfile.tier === 'pro';
+      const activeClass = isPro ? 'active-pro-tab' : 'active-tab';
+
+      document.querySelectorAll('.nav-bottom-btn').forEach(btn => { btn.classList.remove('active-tab'); btn.classList.remove('active-pro-tab'); });
+
+      if (tabName === 'home') {
+        document.getElementById('viewHome').classList.remove('hidden');
+        document.getElementById('navBottomHome').classList.add(activeClass);
+      } else if (tabName === 'myproducts') {
+        document.getElementById('viewMyProducts').classList.remove('hidden');
+        document.getElementById('navBottomMyProducts').classList.add(activeClass);
+        renderMyProductsTab();
+      } else if (tabName === 'wishlist') {
+        document.getElementById('viewWishlist').classList.remove('hidden');
+        document.getElementById('navBottomWishlist').classList.add(activeClass);
+        renderWishlistTab();
+      } else if (tabName === 'me') {
+        document.getElementById('viewMe').classList.remove('hidden');
+        document.getElementById('navBottomMe').classList.add(activeClass);
+        renderMeTabDetails();
+      } else if (tabName === 'about') {
+        document.getElementById('viewAbout').classList.remove('hidden');
+        document.getElementById('navBottomAbout').classList.add(activeClass);
+        loadContributors();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    function updateNavTabVisuals() {
+      const isLogged = !!currentUser;
+      const tabMyProducts = document.getElementById('navBottomMyProducts');
+      const tabWishlist = document.getElementById('navBottomWishlist');
+      const tabMe = document.getElementById('navBottomMe');
+      if (!isLogged) {
+        tabMyProducts?.classList.add('disabled-tab'); tabWishlist?.classList.add('disabled-tab'); tabMe?.classList.add('disabled-tab');
+      } else {
+        tabMyProducts?.classList.remove('disabled-tab'); tabWishlist?.classList.remove('disabled-tab'); tabMe?.classList.remove('disabled-tab');
+      }
+      const authBtnText = document.getElementById('headerAuthText');
+      const authBtnIcon = document.getElementById('headerAuthIcon');
+      if (isLogged) { authBtnText.innerText = currentUser.substring(0, 8); authBtnIcon.className = "fa-solid fa-user-check"; }
+      else { authBtnText.innerText = "Login"; authBtnIcon.className = "fa-solid fa-right-to-bracket"; }
+    }
+
+    function renderMyProductsTab() {
+      const container = document.getElementById('myProductsTabContainer');
+      const myListings = allListings.filter(item => {
+        const itemSeller = (item.seller || '').toLowerCase();
+        return currentUser && (currentUser.toLowerCase() === itemSeller || currentUser.includes(itemSeller));
+      });
+      if (myListings.length === 0) {
+        container.innerHTML = `<div class="col-span-full py-12 text-center grab-card rounded-2xl p-6 border border-slate-200"><i class="fa-solid fa-box-open text-4xl text-slate-300 mb-2"></i><h4 class="text-sm font-black text-slate-800">No products listed yet</h4><p class="text-xs text-slate-500 mb-4">You have not listed any items for sale or rental.</p><button onclick="openAddListingModal()" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-md"><i class="fa-solid fa-plus mr-1"></i> Add Your First Product</button></div>`;
+        return;
+      }
+      const now = new Date();
+      const sellerProfile = allSellers.find(s => (s.email || '').toLowerCase() === currentUserEmail);
+      const isPro = (sellerProfile && sellerProfile.tier === 'pro') || isFounderUser;
+
+      container.innerHTML = myListings.map(item => {
+        let boostStatusHTML = '';
+        if (item.isBoosted && item.boostExpiryDate && new Date(item.boostExpiryDate) > now) {
+          const diffMs = new Date(item.boostExpiryDate) - now;
+          const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+          const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+          boostStatusHTML = `<span class="text-[9px] font-black text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300 inline-block">🚀 Boosted: ${diffHrs}h ${diffMins}m remaining</span>`;
+        } else if (item.boostStatus === 'pending') {
+          boostStatusHTML = '<span class="text-[9px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md inline-block">⏳ Boost Pending Approval</span>';
+        } else if (item.isBoosted && item.boostExpiryDate && new Date(item.boostExpiryDate) <= now) {
+          boostStatusHTML = '<span class="text-[9px] font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-md inline-block">⚠️ Boost Expired</span>';
+        }
+
+        let editBtnHTML = '';
+        if (isPro) {
+          editBtnHTML = `<button onclick="openEditListingModal('${item.id}')" class="py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-[10px] shadow-sm transition-all flex items-center justify-center space-x-1"><i class="fa-solid fa-pen-to-square text-[10px]"></i><span>Edit Product</span></button>`;
+        } else {
+          editBtnHTML = `<button onclick="openLockedEditModal()" class="py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold text-[10px] border border-slate-300 transition-all flex items-center justify-center space-x-1"><i class="fa-solid fa-lock text-amber-600 text-[10px]"></i><span>Edit (Locked)</span></button>`;
+        }
+
+        return `<div class="grab-card rounded-2xl p-3 border border-slate-200 flex flex-col justify-between"><div class="flex space-x-3 mb-2.5"><img src="${item.image || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800'}" alt="${item.title}" class="w-16 h-16 rounded-xl object-cover shrink-0"><div class="min-w-0 flex-1"><h4 class="font-bold text-xs text-slate-900 truncate mb-0.5">${item.title}</h4><p class="text-[10px] text-emerald-700 font-extrabold mb-1">RM ${(Number(item.price)||0).toFixed(2)}</p>${boostStatusHTML}</div></div><div class="grid grid-cols-3 gap-1.5"><button onclick="openBoostBenefitsModal('${item.id}')" class="py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-[10px] shadow-sm transition-all flex items-center justify-center space-x-1"><i class="fa-solid fa-rocket text-[10px]"></i><span>Boost</span></button>${editBtnHTML}<button onclick="terminateListing('${item.id}')" class="py-1.5 rounded-xl bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white font-bold text-[10px] border border-rose-200 transition-all flex items-center justify-center space-x-1"><span>Delete</span></button></div></div>`;
+      }).join('');
+    }
+
+    function renderWishlistTab() {
+      const container = document.getElementById('wishlistTabContainer');
+      const wishlist = getWishlist();
+      const savedItems = allListings.filter(item => wishlist.includes(item.id));
+      if (savedItems.length === 0) {
+        container.innerHTML = `<div class="py-12 text-center text-slate-400 col-span-full"><i class="fa-solid fa-heart-crack text-4xl mb-2 text-rose-300"></i><p class="text-xs font-bold text-slate-600">Your favourite items list is empty!</p></div>`;
+        return;
+      }
+      container.innerHTML = savedItems.map(item => {
+        const rawContact = item.contact || '';
+        const contactHref = rawContact.startsWith('http') ? rawContact : `https://wa.me/${rawContact.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(item.seller || 'Seller')},%20I%20am%20interested%20in%20your%20favourite%20item:%20${encodeURIComponent(item.title || 'Item')}`;
+        return `<div class="grab-card rounded-2xl p-3 border border-slate-200 flex items-center justify-between space-x-3"><div class="flex items-center space-x-3 min-w-0"><img src="${item.image || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800'}" alt="${item.title}" class="w-14 h-14 rounded-xl object-cover border border-slate-200 shrink-0"><div class="min-w-0"><h4 class="font-bold text-xs text-slate-900 truncate mb-0.5">${item.title}</h4><p class="text-[10px] text-emerald-700 font-extrabold mb-0.5">RM ${Number(item.price).toFixed(2)}</p><p class="text-[9px] text-slate-500">Seller: ${item.seller}</p></div></div><div class="flex items-center space-x-1.5 shrink-0"><button onclick="handleChatClick('${item.id}', '${contactHref}')" class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-[10px] shadow-sm flex items-center space-x-1"><i class="fa-brands fa-whatsapp text-xs"></i><span>Chat</span></button><button onclick="toggleWishlist('${item.id}')" class="px-2 py-1.5 rounded-xl bg-slate-100 text-rose-500 hover:bg-rose-50 text-xs"><i class="fa-solid fa-trash-can"></i></button></div></div>`;
+      }).join('');
+    }
+
+    function renderMeTabDetails() {
+      if (!currentUser) return;
+      document.getElementById('meTabUsername').innerText = currentUser;
+      document.getElementById('meTabEmail').innerText = currentUserEmail || `${currentUser}@apm.com`;
+      const sellerProfile = allSellers.find(s => s.email.toLowerCase() === currentUserEmail);
+      const isPro = sellerProfile && sellerProfile.tier === 'pro';
+      const tierBadge = document.getElementById('meTabTierBadge');
+      const upgradeBtn = document.getElementById('meTabUpgradeBtn');
+      const proCountdown = document.getElementById('meTabProCountdownContainer');
+      const timerDisplay = document.getElementById('meTabProCountdownTimer');
+      const profileListingCount = document.getElementById('meTabListingCount');
+      const myListings = allListings.filter(item => {
+        const itemSeller = (item.seller || '').toLowerCase();
+        return currentUser && (currentUser.toLowerCase() === itemSeller || currentUser.includes(itemSeller));
+      });
+      const maxAllowed = isPro ? 7 : 3;
+      if (profileListingCount) profileListingCount.innerText = `${myListings.length} / ${maxAllowed} Used`;
+      if (profileCountdownInterval) clearInterval(profileCountdownInterval);
+
+      if (isPro) {
+        tierBadge.innerText = "APM PRO TIER SELLER/BUYER (UNLOCKED)";
+        tierBadge.className = "inline-block px-4 py-1.5 rounded-full bg-amber-100 text-amber-900 font-extrabold text-xs border border-amber-300 mb-3 uppercase tracking-wider";
+        if (upgradeBtn) upgradeBtn.classList.add('hidden');
+        if (proCountdown) proCountdown.classList.remove('hidden');
+
+        function updateTimer() {
+          const now = new Date();
+          const expiry = new Date(sellerProfile.proExpiryDate);
+          const diffMs = expiry - now;
+          if (diffMs <= 0) {
+            sellerProfile.tier = 'free'; syncLocalStorage(); applyUserTheme(false);
+            clearInterval(profileCountdownInterval); renderMeTabDetails(); return;
+          }
+          const hours = Math.floor(diffMs / (1000 * 60 * 60));
+          const mins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+          const secs = Math.floor((diffMs % (1000 * 60)) / 1000);
+          timerDisplay.innerText = `${hours}h ${mins}m ${secs}s`;
+        }
+        updateTimer();
+        profileCountdownInterval = setInterval(updateTimer, 1000);
+      } else {
+        tierBadge.innerText = "VERIFIED SELLER/BUYER (FREE TIER)";
+        tierBadge.className = "inline-block px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-800 font-extrabold text-xs border border-emerald-300 mb-3 uppercase tracking-wider";
+        if (upgradeBtn) upgradeBtn.classList.remove('hidden');
+        if (proCountdown) proCountdown.classList.add('hidden');
+      }
+    }
+
+    async function loadContributors() {
+      incrementQuota('read');
+      try {
+        const q = query(collection(db, "contributors"));
+        const querySnapshot = await getDocs(q);
+        const firebaseContribs = [];
+        querySnapshot.forEach((docSnap) => { firebaseContribs.push({ id: docSnap.id, ...docSnap.data() }); });
+        if (firebaseContribs.length > 0) allContributors = firebaseContribs;
+      } catch (err) {
+        allContributors = [
+          { id: 'c1', name: 'Sudarshan Parthipan', program: 'Diploma in Biotechnology, Aimst University', desc: 'Suggested segregating study materials into general to specific categories to improve student search efficiency.' },
+          { id: 'c2', name: 'Gaura Kishore Kathiresan', program: 'Diploma in Physiotherapy, Aimst University', desc: 'Assisted with promotional outreach and management approval from AIMST University.' }
+        ];
+      }
+      renderAboutContributors();
+    }
+
+    function renderAboutContributors() {
+      const container = document.getElementById('aboutContributorsList');
+      const addBtn = document.getElementById('addAboutContribBtn');
+      if (isFounderUser) addBtn.classList.remove('hidden'); else addBtn.classList.add('hidden');
+      if (allContributors.length === 0) { container.innerHTML = `<div class="col-span-full py-8 text-center text-slate-400"><p class="text-xs font-bold text-slate-600">No contributors added yet.</p></div>`; return; }
+      container.innerHTML = allContributors.map(c => {
+        const initials = (c.name || 'C').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        return `<div class="grab-card rounded-2xl p-3.5 border border-slate-200 flex flex-col justify-between"><div class="flex items-start space-x-3 mb-2">${c.photo ? `<img src="${c.photo}" alt="${c.name}" class="w-10 h-10 rounded-xl object-cover shrink-0 border border-slate-200 shadow-sm">` : `<div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 font-black flex items-center justify-center text-xs shrink-0 shadow-sm">${initials}</div>`}<div class="min-w-0"><h4 class="font-black text-xs text-slate-900 truncate">${c.name}</h4><p class="text-[10px] font-bold text-emerald-700">${c.program}</p></div></div><p class="text-[10px] text-slate-600 leading-relaxed bg-slate-50 p-2 rounded-xl border border-slate-100">💡 "${c.desc}"</p>${isFounderUser ? `<button onclick="deleteContributor('${c.id}')" title="Remove" class="text-rose-500 hover:text-rose-700 text-right text-[10px] font-bold mt-2"><i class="fa-solid fa-trash-can"></i> Remove</button>` : ''}</div>`;
+      }).join('');
+    }
+
+    window.openAddContributorModal = function() { document.getElementById('addContributorModal').classList.remove('hidden'); };
+    window.closeAddContributorModal = function() { document.getElementById('addContributorModal').classList.add('hidden'); };
+
+    window.handlePostContributor = async function(e) {
+      if (e) e.preventDefault();
+      const submitBtn = document.getElementById('saveContribSubmitBtn');
+      const name = sanitizeInput(document.getElementById('contribName').value);
+      const program = sanitizeInput(document.getElementById('contribProgram').value);
+      const desc = sanitizeInput(document.getElementById('contribDesc').value);
+      const fileInput = document.getElementById('contribPhotoFile');
+      
+      try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Adding to Wall of Fame...</span>`;
+        }
+
+        let photo = "";
+        if (fileInput.files[0]) {
+          const file = fileInput.files[0];
+          photo = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+          });
+        }
+
+        const newContrib = { name, program, desc, photo, createdAt: new Date().toISOString() };
+        incrementQuota('write');
+        const docRef = await addDoc(collection(db, "contributors"), newContrib);
+        newContrib.id = docRef.id; 
+        allContributors.push(newContrib);
+        
+        closeAddContributorModal(); 
+        document.getElementById('contributorForm').reset();
+        renderAboutContributors(); 
+        alert("Contributor added to Wall of Fame!");
+      } catch (err) { 
+        alert("Firebase Save Error: " + err.message); 
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>Add to Wall of Fame</span>`;
+        }
+      }
+    };
+
+    window.deleteContributor = async function(id) {
+      if (!confirm("Are you sure you want to remove this contributor?")) return;
+      try {
+        incrementQuota('delete');
+        await deleteDoc(doc(db, "contributors", id));
+        allContributors = allContributors.filter(c => c.id !== id);
+        renderAboutContributors(); alert("Contributor removed.");
+      } catch (err) { alert("Firebase Delete Error: " + err.message); }
+    };
+
+    function applyUserTheme(isPro) {
+      const banner = document.getElementById('installBanner');
+      const subTitle = document.getElementById('navSubTitle');
+      const liveBanner = document.getElementById('liveSyncBanner');
+      const liveDot = document.getElementById('liveDotSpan');
+      const syncBorder1 = document.getElementById('syncBorder1');
+      const syncBorder2 = document.getElementById('syncBorder2');
+      const storeIcon = document.getElementById('syncStoreIcon');
+      const checkIcon = document.getElementById('syncCheckIcon');
+      const courseFilterSec = document.getElementById('courseFilterSection');
+      const courseFilterIcon = document.getElementById('courseFilterIcon');
+      const resetFilterBtn = document.getElementById('resetCourseFiltersBtn');
+      const courseSelectLabel = document.getElementById('courseSelectLabel');
+      const courseSelectEl = document.getElementById('itemCourseSelect');
+      const floatingPostBtn = document.getElementById('floatingPostBtn');
+      const metaThemeColor = document.getElementById('metaThemeColor');
+      const welcomeBadgeDiv = document.getElementById('welcomeBadgeDiv');
+      const welcomeStartBtn = document.getElementById('welcomeStartBtn');
+
+      if (isPro) {
+        if (metaThemeColor) metaThemeColor.content = "#581c87";
+        if (banner) banner.className = "bg-gradient-to-r from-purple-950 via-indigo-950 to-slate-900 text-white py-2 px-3 text-center text-xs font-medium flex flex-wrap items-center justify-center gap-2 sm:gap-4 border-b border-purple-700 shadow-md transition-all";
+        if (subTitle) subTitle.className = "text-[7px] sm:text-[8px] uppercase tracking-widest text-purple-600 font-bold leading-none mt-0.5 truncate";
+        if (liveBanner) liveBanner.className = "bg-purple-50 border-b border-purple-200 py-1.5 px-3 text-center text-[10px] sm:text-[11px] font-medium text-purple-900 flex flex-wrap items-center justify-center gap-2 sm:gap-6 transition-all";
+        if (liveDot) liveDot.className = "w-2 h-2 rounded-full bg-purple-600 animate-pulse";
+        if (syncBorder1) syncBorder1.className = "flex items-center space-x-1 border-l border-purple-300 pl-2";
+        if (syncBorder2) syncBorder2.className = "flex items-center space-x-1 border-l border-purple-300 pl-2";
+        if (storeIcon) storeIcon.className = "fa-solid fa-store text-purple-600 text-[9px]";
+        if (checkIcon) checkIcon.className = "fa-solid fa-circle-check text-purple-600 text-[9px]";
+        if (courseFilterSec) courseFilterSec.className = "bg-white p-3.5 rounded-2xl border-2 border-purple-500/40 mb-4 shadow-lg hidden transition-all";
+        if (courseFilterIcon) courseFilterIcon.className = "fa-solid fa-book-medical text-purple-600 text-sm";
+        if (resetFilterBtn) resetFilterBtn.className = "text-[10px] font-bold text-purple-700 hover:underline";
+        if (courseSelectLabel) courseSelectLabel.className = "block text-[11px] font-bold text-purple-800 uppercase tracking-wider mb-1";
+        if (courseSelectEl) courseSelectEl.className = "w-full bg-purple-50 border border-purple-300 rounded-xl px-3.5 py-2.5 text-xs text-purple-950 font-bold focus:outline-none focus:border-purple-500";
+        if (floatingPostBtn) floatingPostBtn.className = "flex items-center space-x-2 px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-bold shadow-2xl shadow-purple-700/40 ring-2 ring-white hover:scale-105 transition-all text-xs sm:text-sm";
+        if (welcomeBadgeDiv) welcomeBadgeDiv.className = "inline-block px-4 py-1.5 rounded-full bg-purple-50 text-purple-700 font-bold text-xs sm:text-sm border border-purple-200";
+        if (welcomeStartBtn) welcomeStartBtn.className = "relative z-10 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white font-bold text-sm shadow-xl shadow-purple-700/20 flex items-center justify-center space-x-3 transition-all hover:scale-[1.02]";
+      } else {
+        if (metaThemeColor) metaThemeColor.content = "#059669";
+        if (banner) banner.className = "bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white py-2 px-3 text-center text-xs font-medium flex flex-wrap items-center justify-center gap-2 sm:gap-4 border-b border-emerald-700 shadow-md transition-all";
+        if (subTitle) subTitle.className = "text-[7px] sm:text-[8px] uppercase tracking-widest text-emerald-600 font-bold leading-none mt-0.5 truncate";
+        if (liveBanner) liveBanner.className = "bg-emerald-50 border-b border-emerald-200 py-1.5 px-3 text-center text-[10px] sm:text-[11px] font-medium text-emerald-900 flex flex-wrap items-center justify-center gap-2 sm:gap-6 transition-all";
+        if (liveDot) liveDot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+        if (syncBorder1) syncBorder1.className = "flex items-center space-x-1 border-l border-emerald-300 pl-2";
+        if (syncBorder2) syncBorder2.className = "flex items-center space-x-1 border-l border-emerald-300 pl-2";
+        if (storeIcon) storeIcon.className = "fa-solid fa-store text-emerald-600 text-[9px]";
+        if (checkIcon) checkIcon.className = "fa-solid fa-circle-check text-emerald-600 text-[9px]";
+        if (courseFilterSec) courseFilterSec.className = "bg-white p-3.5 rounded-2xl border-2 border-emerald-500/40 mb-4 shadow-lg hidden transition-all";
+        if (courseFilterIcon) courseFilterIcon.className = "fa-solid fa-book-medical text-emerald-600 text-sm";
+        if (resetFilterBtn) resetFilterBtn.className = "text-[10px] font-bold text-emerald-700 hover:underline";
+        if (courseSelectLabel) courseSelectLabel.className = "block text-[11px] font-bold text-emerald-800 uppercase tracking-wider mb-1";
+        if (courseSelectEl) courseSelectEl.className = "w-full bg-emerald-50 border border-emerald-300 rounded-xl px-3.5 py-2.5 text-xs text-emerald-950 font-bold focus:outline-none focus:border-emerald-500";
+        if (floatingPostBtn) floatingPostBtn.className = "flex items-center space-x-2 px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-2xl shadow-emerald-600/40 ring-2 ring-white hover:scale-105 transition-all text-xs sm:text-sm";
+        if (welcomeBadgeDiv) welcomeBadgeDiv.className = "inline-block px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-700 font-bold text-xs sm:text-sm border border-emerald-200";
+        if (welcomeStartBtn) welcomeStartBtn.className = "relative z-10 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-sm shadow-xl shadow-emerald-600/20 flex items-center justify-center space-x-3 transition-all hover:scale-[1.02]";
+      }
+    }
+
+    function sanitizeInput(str) {
+      if (!str) return '';
+      const temp = document.createElement('div');
+      temp.textContent = str;
+      return temp.innerHTML.trim();
+    }
+
+    window.closeWelcomeModal = function() {
+      const modal = document.getElementById('welcomeModal');
+      if (modal) { modal.style.display = 'none'; modal.classList.add('hidden'); }
+      sessionStorage.setItem('apm_welcome_shown', 'true');
+    };
+
+    function checkWelcomeModal() {
+      if (sessionStorage.getItem('apm_welcome_shown') === 'true') {
+        const modal = document.getElementById('welcomeModal');
+        if (modal) modal.style.display = 'none';
+      }
+    }
+
+    window.scrollToClubs = function() {
+      const el = document.getElementById('clubsSection');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    function syncLocalStorage() {
+      localStorage.setItem('aimst_clubs', JSON.stringify(allClubs));
+      localStorage.setItem('aimst_sellers', JSON.stringify(allSellers));
+      localStorage.setItem('aimst_sold_count', soldCount.toString());
+      updateMetrics();
+    }
+
+    function updateMetrics() {
+      const activeBuyerListings = allListings.filter(item => !item.isDisabled);
+      document.getElementById('statActiveCount').innerText = activeBuyerListings.length;
+      document.getElementById('statSoldsCount').innerText = soldCount;
+      document.getElementById('wishlistCountBadge').innerText = getWishlist().length;
+      document.getElementById('listingCount').innerText = `Showing ${activeBuyerListings.length} item(s)`;
+    }
+
+    window.toggleWishlist = function(itemId) {
+      if (!currentUser) {
+        alert("🔒 Login Required!\n\nGuest buyers can directly contact sellers on WhatsApp, but saving items to Favourite requires registering and logging in as a Verified APM Buyer/Seller.");
+        openAuthModal(); return;
+      }
+      const wishlist = getWishlist();
+      const idx = wishlist.indexOf(itemId);
+      if (idx > -1) { wishlist.splice(idx, 1); } else { wishlist.push(itemId); playWishlistBellSound(); }
+      localStorage.setItem(getWishlistKey(), JSON.stringify(wishlist));
+      updateMetrics(); renderListings(); renderWishlistTab();
+    };
+
+    window.openBoostBenefitsModal = function(itemId) { activeBoostItemId = itemId; document.getElementById('boostBenefitsModal').classList.remove('hidden'); };
+    window.closeBoostBenefitsModal = function() { document.getElementById('boostBenefitsModal').classList.add('hidden'); };
+    window.proceedToBoostDays = function() {
+      closeBoostBenefitsModal(); document.getElementById('boostDaysSelect').value = "1";
+      updateBoostCostDisplay(); document.getElementById('boostDaysModal').classList.remove('hidden');
+    };
+    window.closeBoostDaysModal = function() { document.getElementById('boostDaysModal').classList.add('hidden'); };
+    window.updateBoostCostDisplay = function() {
+      const days = parseInt(document.getElementById('boostDaysSelect').value) || 1;
+      document.getElementById('boostTotalDisplay').innerText = `RM ${(days * 1.00).toFixed(2)}`;
+    };
+    window.proceedToPaymentQR = function() {
+      const days = parseInt(document.getElementById('boostDaysSelect').value) || 1;
+      document.getElementById('tngPayAmountDisplay').innerText = `RM ${(days * 1.00).toFixed(2)}`;
+      closeBoostDaysModal(); document.getElementById('boostModal').classList.remove('hidden');
+    };
+    window.closeBoostModal = function() { document.getElementById('boostModal').classList.add('hidden'); activeBoostItemId = null; };
+
+    window.submitBoostRequest = async function() {
+      if (!activeBoostItemId) return;
+      const days = parseInt(document.getElementById('boostDaysSelect').value) || 1;
+      const targetItem = allListings.find(i => i.id === activeBoostItemId);
+      if (!targetItem) return;
+      targetItem.boostStatus = 'pending'; targetItem.boostRequestedDays = days;
+      try {
+        incrementQuota('write');
+        await updateDoc(doc(db, "listings", activeBoostItemId), { boostStatus: 'pending', boostRequestedDays: days });
+      } catch(e){}
+      try {
+        incrementQuota('write');
+        await addDoc(collection(db, "payment_alerts"), {
+          type: "Ad Boost", seller: currentUser, email: currentUserEmail, title: targetItem.title, amount: (days * 1.00).toFixed(2), createdAt: new Date().toISOString()
+        });
+      } catch(e){}
+      const waMsg = `Hi Founder Keven, I have paid for my ad boost. Product Name: "${targetItem.title}", Total Days: ${days} Day(s), Total Amount: RM ${(days * 1.00).toFixed(2)}. Here is my payment receipt screenshot.`;
+      closeBoostModal();
+      window.open(`https://wa.me/60126384757?text=${encodeURIComponent(waMsg)}`, '_blank');
+      alert("Boost payment submitted! Awaiting Founder verification.");
+      renderMyProductsTab();
+    };
+
+    window.approveBoost = async function(itemId) {
+      const item = allListings.find(i => i.id === itemId);
+      if (!item) return;
+      const days = item.boostRequestedDays || 1;
+      const boostExpiry = new Date(Date.now() + (days * 24 * 60 * 60 * 1000)).toISOString();
+      item.isBoosted = true; item.boostStatus = 'approved'; item.boostExpiryDate = boostExpiry;
+      try {
+        incrementQuota('write');
+        await updateDoc(doc(db, "listings", itemId), { isBoosted: true, boostStatus: 'approved', boostExpiryDate: boostExpiry });
+      } catch(e){}
+      syncLocalStorage(); renderListings(); renderSellerManagerTable();
+      alert(`Approved Ad Boost for "${item.title}" (${days} days)!`);
+    };
+
+    window.rejectBoost = async function(itemId) {
+      const item = allListings.find(i => i.id === itemId);
+      if (!item) return;
+      item.isBoosted = false; item.boostStatus = 'rejected';
+      try {
+        incrementQuota('write');
+        await updateDoc(doc(db, "listings", itemId), { isBoosted: false, boostStatus: 'rejected' });
+      } catch(e){}
+      syncLocalStorage(); renderListings(); renderSellerManagerTable();
+    };
+
+    window.requestProUpgrade = async function() {
+      if (!currentUserEmail) { alert("Please login first."); return; }
+      const seller = allSellers.find(s => s.email.toLowerCase() === currentUserEmail);
+      if (seller) {
+        seller.proUpgradeStatus = 'pending';
+        try {
+          incrementQuota('write');
+          await updateDoc(doc(db, "verified_sellers", seller.id), { proUpgradeStatus: 'pending' });
+        } catch(e){}
+      }
+      try {
+        incrementQuota('write');
+        await addDoc(collection(db, "payment_alerts"), {
+          type: "Pro Upgrade", seller: currentUser, email: currentUserEmail, amount: "5.00", createdAt: new Date().toISOString()
+        });
+      } catch(e){}
+      syncLocalStorage();
+      const waMsg = `Hi Founder Keven, I have paid RM5 for the APM Pro Tier upgrade. Here is my payment receipt screenshot. Seller Account: ${currentUserEmail}`;
+      closeUpgradeModal();
+      window.open(`https://wa.me/60126384757?text=${encodeURIComponent(waMsg)}`, '_blank');
+      alert("Pro tier upgrade payment sent to Founder! Awaiting verification.");
+    };
+
+    window.requestProUpgradeFromLockedEdit = function() {
+      closeLockedEditModal();
+      openUpgradeModal();
+    };
+
+    window.openLockedEditModal = function() {
+      document.getElementById('lockedEditModal').classList.remove('hidden');
+    };
+    window.closeLockedEditModal = function() {
+      document.getElementById('lockedEditModal').classList.add('hidden');
+    };
+
+    window.openEditListingModal = function(itemId) {
+      const item = allListings.find(i => i.id === itemId);
+      if (!item) return;
+      document.getElementById('editItemId').value = item.id;
+      document.getElementById('editItemTitle').value = item.title || '';
+      document.getElementById('editItemPrice').value = item.price || 0;
+      document.getElementById('editItemContact').value = item.contact || '';
+      document.getElementById('editItemDesc').value = item.desc || '';
+      document.getElementById('editListingModal').classList.remove('hidden');
+    };
+    window.closeEditListingModal = function() {
+      document.getElementById('editListingModal').classList.add('hidden');
+    };
+
+    window.handleUpdateListing = async function(e) {
+      if (e) e.preventDefault();
+      const itemId = document.getElementById('editItemId').value;
+      const title = sanitizeInput(document.getElementById('editItemTitle').value);
+      const price = parseFloat(document.getElementById('editItemPrice').value) || 0;
+      const contact = sanitizeInput(document.getElementById('editItemContact').value);
+      const desc = sanitizeInput(document.getElementById('editItemDesc').value);
+
+      const targetItem = allListings.find(i => i.id === itemId);
+      if (targetItem) {
+        targetItem.title = title;
+        targetItem.price = price;
+        targetItem.contact = contact;
+        targetItem.desc = desc;
+        try {
+          incrementQuota('write');
+          await updateDoc(doc(db, "listings", itemId), { title, price, contact, desc });
+        } catch(err) {}
+      }
+      closeEditListingModal();
+      renderListings();
+      renderMyProductsTab();
+      alert("Product updated successfully!");
+    };
+
+    window.approveProUpgrade = async function(sellerId) {
+      const seller = allSellers.find(s => s.id === sellerId);
+      if (seller) {
+        seller.tier = 'pro'; seller.proUpgradeStatus = 'approved';
+        seller.proExpiryDate = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000)).toISOString();
+        try {
+          incrementQuota('write');
+          await updateDoc(doc(db, "verified_sellers", sellerId), { tier: 'pro', proUpgradeStatus: 'approved', proExpiryDate: seller.proExpiryDate });
+        } catch(e){}
+        syncLocalStorage(); renderSellerManagerTable();
+        alert(`Approved Pro Tier for ${seller.username}!`);
+      }
+    };
+
+    window.rejectProUpgrade = async function(sellerId) {
+      const seller = allSellers.find(s => s.id === sellerId);
+      if (seller) {
+        seller.proUpgradeStatus = 'rejected';
+        try {
+          incrementQuota('write');
+          await updateDoc(doc(db, "verified_sellers", sellerId), { proUpgradeStatus: 'rejected' });
+        } catch(e){}
+        syncLocalStorage(); renderSellerManagerTable();
+      }
+    };
+
+    window.switchAuthTab = function(tab) {
+      if (tab === 'login') {
+        document.getElementById('loginFormContainer').classList.remove('hidden');
+        document.getElementById('registerFormContainer').classList.add('hidden');
+        document.getElementById('tabLoginBtn').className = "flex-1 py-1.5 rounded-xl text-xs font-extrabold bg-white text-slate-900 shadow-sm transition-all";
+        document.getElementById('tabRegisterBtn').className = "flex-1 py-1.5 rounded-xl text-xs font-extrabold text-slate-500 hover:text-slate-900 transition-all";
+      } else {
+        document.getElementById('loginFormContainer').classList.add('hidden');
+        document.getElementById('registerFormContainer').classList.remove('hidden');
+        document.getElementById('tabRegisterBtn').className = "flex-1 py-1.5 rounded-xl text-xs font-extrabold bg-white text-slate-900 shadow-sm transition-all";
+        document.getElementById('tabLoginBtn').className = "flex-1 py-1.5 rounded-xl text-xs font-extrabold text-slate-500 hover:text-slate-900 transition-all";
+      }
+    };
+
+    window.handleRegister = async function() {
+      let rawUser = document.getElementById('regUser').value.trim().toLowerCase();
+      const pass = document.getElementById('regPass').value.trim();
+      const errEl = document.getElementById('registerError');
+      errEl.classList.add('hidden');
+
+      if (!rawUser || !pass) { 
+        errEl.innerText = "Please fill in all registration fields."; 
+        errEl.classList.remove('hidden'); 
+        return; 
+      }
+
+      if (!rawUser.endsWith('@apm.com')) {
+        rawUser = `${rawUser}@apm.com`;
+      }
+      
+      const emailPrefix = rawUser.split('@')[0];
+      if (!emailPrefix.includes('_') || emailPrefix.includes('@gmail.com') || emailPrefix.includes('gmail')) {
+        errEl.innerText = "Registration Failed! You haven't followed the criteria. Email MUST be in the format: Firstname_matrixID@apm.com (e.g. keventhiran_e25101420@apm.com). Personal Gmail is not allowed.";
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      const cleanUsername = emailPrefix;
+      try {
+        await createUserWithEmailAndPassword(auth, rawUser, pass);
+        const newSellerDoc = { id: 'seller-' + Date.now(), username: cleanUsername, email: rawUser.toLowerCase(), isVerified: false, tier: 'free' };
+        try {
+          incrementQuota('write');
+          await setDoc(doc(db, "verified_sellers", newSellerDoc.id), newSellerDoc);
+        } catch(e){}
+        
+        try {
+          incrementQuota('write');
+          await addDoc(collection(db, "payment_alerts"), {
+            type: "New Student Verification", seller: cleanUsername, email: rawUser, amount: "0.00", createdAt: new Date().toISOString()
+          });
+        } catch(e){}
+
+        allSellers.push(newSellerDoc); syncLocalStorage(); await signOut(auth);
+        alert("Registration Successful! Your account is pending Founder approval. Please check back soon.");
+        switchAuthTab('login');
+      } catch (err) { 
+        errEl.innerText = `Registration Error: ${err.message}`;
+        errEl.classList.remove('hidden');
+      }
+    };
+
+    window.handleAuthClick = function() { if (currentUser) switchMainTab('me'); else openAuthModal(); };
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUserEmail = (user.email || '').toLowerCase();
+        const founderEmails = ['keventhiran_e25101420@apm.com', 'taarisini_e25101220@apm.com'];
+        isFounderUser = founderEmails.includes(currentUserEmail);
+        currentUser = user.email.split('@')[0];
+
+        await loadSellers();
+        const sellerProfile = allSellers.find(s => (s.email || '').toLowerCase() === currentUserEmail);
+        if (sellerProfile && !sellerProfile.isVerified && !isFounderUser) {
+          await signOut(auth);
+          alert("Your account is pending founder verification. Please check back soon!");
+          return;
+        }
+        const isPro = sellerProfile && sellerProfile.tier === 'pro';
+        applyUserTheme(isPro);
+
+        document.getElementById('floatingPostBtn').style.display = 'block';
+        document.getElementById('addClubBtn').style.display = 'flex';
+        if (isFounderUser) {
+          document.getElementById('sellerManagerNavBtn').style.display = 'flex';
+          setupFounderRealtimeListeners();
+        }
+
+        checkExpiredBoostsForSeller();
+      } else {
+        currentUser = null; currentUserEmail = null; isFounderUser = false;
+        applyUserTheme(false);
+        document.getElementById('floatingPostBtn').style.display = 'none';
+        document.getElementById('addClubBtn').style.display = 'none';
+        document.getElementById('sellerManagerNavBtn').style.display = 'none';
+      }
+      updateNavTabVisuals(); renderListings(); renderClubs(); loadContributors();
+      if (isFounderUser) renderSellerManagerTable();
+    });
+
+    function setupFounderRealtimeListeners() {
+      try {
+        onSnapshot(collection(db, "payment_alerts"), (snapshot) => {
+          incrementQuota('read');
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              if (!localStorage.getItem(`apm_notified_${change.doc.id}`)) {
+                localStorage.setItem(`apm_notified_${change.doc.id}`, 'true');
+                triggerDesktopNotification("APM Founder Alert!", `${data.type} submitted by ${data.seller}! Check Admin Hub.`);
+              }
+            }
+          });
+        });
+
+        onSnapshot(collection(db, "verified_sellers"), (snapshot) => {
+          incrementQuota('read');
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              if (data.isVerified === false && !localStorage.getItem(`apm_seller_notified_${change.doc.id}`)) {
+                localStorage.setItem(`apm_seller_notified_${change.doc.id}`, 'true');
+                triggerDesktopNotification("New Student Registration!", `New student ${data.username} requested verification.`);
+              }
+            }
+          });
+        });
+      } catch(e) {}
+    }
+
+    function checkExpiredBoostsForSeller() {
+      if (!currentUser) return;
+      const now = new Date();
+      expiredBoostQueue = allListings.filter(item => {
+        const itemSeller = (item.seller || '').toLowerCase();
+        const isOwner = currentUser && (currentUser.toLowerCase() === itemSeller || currentUser.includes(itemSeller));
+        if (!isOwner) return false;
+        if (!item.isBoosted || !item.boostExpiryDate) return false;
+        const expiry = new Date(item.boostExpiryDate);
+        const hasNotified = localStorage.getItem(`apm_expired_notified_${item.id}`);
+        return expiry <= now && !hasNotified;
+      });
+      if (expiredBoostQueue.length > 0) showExpiredBoostModal(expiredBoostQueue[0]);
+    }
+
+    function showExpiredBoostModal(item) {
+      document.getElementById('boostExpiredSellerName').innerText = currentUser || "Seller";
+      document.getElementById('boostExpiredItemTitle').innerText = `"${item.title}"`;
+      document.getElementById('boostExpiredModal').classList.remove('hidden');
+    }
+
+    window.closeBoostExpiredModal = function() {
+      if (expiredBoostQueue.length > 0) localStorage.setItem(`apm_expired_notified_${expiredBoostQueue[0].id}`, 'true');
+      document.getElementById('boostExpiredModal').classList.add('hidden');
+    };
+
+    window.renewExpiredBoost = function() {
+      if (expiredBoostQueue.length > 0) { const item = expiredBoostQueue[0]; closeBoostExpiredModal(); openBoostBenefitsModal(item.id); }
+    };
+
+    async function loadData() {
+      checkWelcomeModal(); populateCourseDropdowns(); renderCourseFilterPills();
+      await loadSellers(); await loadListings(); await loadClubs(); await loadContributors();
+      updateMetrics(); updateNavTabVisuals();
+      startDailyBoostPopupSequence();
+      setInterval(startDailyBoostPopupSequence, 5 * 60 * 1000);
+    }
+
+    function startDailyBoostPopupSequence() {
+      const now = new Date(); const todayStr = new Date().toDateString();
+      const activeBoosted = allListings.filter(item => {
+        if (!item.isBoosted || !item.boostExpiryDate) return false;
+        return new Date(item.boostExpiryDate) > now && !item.isDisabled;
+      }).sort((a, b) => new Date(b.boostExpiryDate) - new Date(a.boostExpiryDate));
+
+      if (activeBoosted.length === 0) return;
+      const unshownAd = activeBoosted.find(ad => !localStorage.getItem(`apm_boost_shown_${ad.id}_${todayStr}`));
+      if (unshownAd) {
+        showRandomBoostPopup(unshownAd);
+        localStorage.setItem(`apm_boost_shown_${unshownAd.id}_${todayStr}`, 'true');
+      }
+    }
+
+    function showRandomBoostPopup(item) {
+      const container = document.getElementById('randomBoostPopupContent');
+      const rawContact = item.contact || '';
+      const contactHref = rawContact.startsWith('http') ? rawContact : `https://wa.me/${rawContact.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(item.seller || 'Seller')},%20I%20saw%20your%20boosted%20ad%20on%20APM%20and%20want%20to%20buy:%20${encodeURIComponent(item.title || 'Item')}`;
+      const safePrice = Number(item.price) || 0;
+      container.innerHTML = `<div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-slate-100 border border-slate-200"><img src="${item.image || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800'}" alt="${item.title}" class="w-full h-full object-cover"></div><h4 class="font-black text-base text-slate-900 mb-1 line-clamp-1">${item.title}</h4><p class="text-xs text-emerald-700 font-extrabold mb-3">RM ${safePrice.toFixed(2)}</p><a href="${contactHref}" target="_blank" onclick="closeRandomBoostPopup()" class="w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 transition-all"><i class="fa-brands fa-whatsapp text-base"></i><span>BUY NOW !! CLICK TO CHAT</span></a>`;
+      document.getElementById('randomBoostPopupModal').classList.remove('hidden');
+    }
+
+    window.closeRandomBoostPopup = function() { document.getElementById('randomBoostPopupModal').classList.add('hidden'); };
+
+    function populateCourseDropdowns() {
+      const selectEl = document.getElementById('itemCourseSelect');
+      if (!selectEl) return;
+      selectEl.innerHTML = AIMST_COURSES.map(c => `<option value="${c.id}">${c.name} (${c.nick})</option>`).join('');
+    }
+
+    window.renderCourseFilterPills = function() {
+      const container = document.getElementById('coursePillsContainer');
+      const searchTxt = (document.getElementById('courseSearchInput')?.value || '').toLowerCase();
+      const filtered = AIMST_COURSES.filter(c => c.name.toLowerCase().includes(searchTxt) || c.nick.toLowerCase().includes(searchTxt));
+      container.innerHTML = filtered.map(c => {
+        const isSelected = selectedCourses.has(c.id);
+        return `<button onclick="toggleCourseFilter('${c.id}')" class="px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition-all border flex items-center space-x-1.5 ${isSelected ? 'bg-emerald-600 text-white border-emerald-700 shadow-sm' : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'}"><span>${c.nick}</span>${isSelected ? '<i class="fa-solid fa-check text-[10px]"></i>' : ''}</button>`;
+      }).join('');
+    };
+
+    window.toggleCourseFilter = function(courseId) {
+      if (selectedCourses.has(courseId)) selectedCourses.delete(courseId); else selectedCourses.add(courseId);
+      renderCourseFilterPills(); renderListings();
+    };
+
+    window.clearCourseFilters = function() { selectedCourses.clear(); renderCourseFilterPills(); renderListings(); };
+    window.toggleCourseFilterPanel = function() {
+      const panel = document.getElementById('courseFilterSection');
+      if (panel.classList.contains('hidden')) panel.classList.remove('hidden'); else panel.classList.add('hidden');
+    };
+
+    window.onCategoryChange = function() {
+      const cat = document.getElementById('categorySelect').value;
+      const courseContainer = document.getElementById('courseSelectContainer');
+      const priceLabel = document.getElementById('priceLabel');
+      const titleInput = document.getElementById('itemTitle');
+      const descInput = document.getElementById('itemDesc');
+      if (cat === 'academic') {
+        courseContainer.style.display = 'block';
+        titleInput.placeholder = 'e.g., DBMS Semester 3 Lecture Notes & Past Year Papers';
+        descInput.placeholder = 'e.g., Complete chapter notes, handwritten summaries, and past year exam solutions...';
+      } else if (cat === 'rentals') {
+        courseContainer.style.display = 'none';
+        titleInput.placeholder = 'e.g., Scientific Calculator Casio fx-570EX or Formal Navy Blazer Size M';
+        descInput.placeholder = 'Provide rental rate per day, deposit terms, and pickup location...';
+      } else if (cat === 'tech') {
+        courseContainer.style.display = 'none';
+        titleInput.placeholder = 'e.g., Logitech Wireless Mouse or MSI Laptop Cooling Pad';
+        descInput.placeholder = 'Specify brand, model, condition, and warranty status...';
+      } else if (cat === 'hostel') {
+        courseContainer.style.display = 'none';
+        titleInput.placeholder = 'e.g., Extension Cord 4-Way Socket or Study Desk Lamp';
+        descInput.placeholder = 'Specify item condition and hostel block pickup details...';
+      } else if (cat === 'services') {
+        courseContainer.style.display = 'none';
+        titleInput.placeholder = 'e.g., Assignment Printing & Ring Binding Service';
+        descInput.placeholder = 'Specify service pricing per page, color/bw options, and turnaround time...';
+      } else if (cat === 'events') {
+        courseContainer.style.display = 'none';
+        titleInput.placeholder = 'e.g., AIMST Deepavali Cultural Night 2026 Ticket';
+        descInput.placeholder = 'Specify event date, time, venue, ticket price, and contact person...';
+      }
+      if (cat === 'rentals') priceLabel.innerText = 'Rental Rate (MYR / day)'; else priceLabel.innerText = 'Price (MYR)';
+    };
+
+    async function loadListings() {
+      incrementQuota('read');
+      try {
+        const q = query(collection(db, "listings"));
+        const querySnapshot = await getDocs(q);
+        const firebaseItems = [];
+        querySnapshot.forEach((docSnap) => { firebaseItems.push({ id: docSnap.id, clicksCount: 0, ...docSnap.data() }); });
+        allListings = firebaseItems;
+      } catch (error) { allListings = []; }
+      syncLocalStorage(); renderListings();
+    }
+
+    async function loadClubs() {
+      incrementQuota('read');
+      try {
+        const q = query(collection(db, "clubs"));
+        const querySnapshot = await getDocs(q);
+        const firebaseClubs = [];
+        querySnapshot.forEach((docSnap) => { firebaseClubs.push({ id: docSnap.id, ...docSnap.data() }); });
+        if (firebaseClubs.length > 0) allClubs = firebaseClubs;
+      } catch (err) {}
+      syncLocalStorage(); renderClubs();
+    }
+
+    async function loadSellers() {
+      incrementQuota('read');
+      try {
+        const q = query(collection(db, "verified_sellers"));
+        const querySnapshot = await getDocs(q);
+        const firebaseSellers = [];
+        querySnapshot.forEach((docSnap) => { 
+          const data = docSnap.data();
+          firebaseSellers.push({ id: docSnap.id, ...data, email: (data.email || '').toLowerCase() }); 
+        });
+        if (firebaseSellers.length > 0) { allSellers = firebaseSellers; syncLocalStorage(); }
+      } catch (err) {}
+    }
+
+    window.toggleDescription = function(itemId) {
+      if (expandedDescIds.has(itemId)) expandedDescIds.delete(itemId); else expandedDescIds.add(itemId);
+      renderListings();
+    };
+
+    window.handleChatClick = async function(id, contactUrl) {
+      const targetItem = allListings.find(item => item.id === id);
+      if (targetItem) {
+        targetItem.clicksCount = (targetItem.clicksCount || 0) + 1;
+        try {
+          incrementQuota('write');
+          await updateDoc(doc(db, "listings", id), { clicksCount: increment(1) });
+        } catch(e) {}
+      }
+      window.open(contactUrl, '_blank');
+    };
+
+    window.setCategory = function(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.category-btn').forEach(b => {
+        b.className = "category-btn grab-card p-2.5 rounded-2xl flex flex-col items-center justify-center text-center transition-all group";
+      });
+      if (btn) btn.className = "category-btn grab-card p-2.5 rounded-2xl flex flex-col items-center justify-center text-center transition-all group bg-emerald-50 border-emerald-300 shadow-sm";
+      const courseFilterSection = document.getElementById('courseFilterSection');
+      if (cat === 'academic') { courseFilterSection.classList.remove('hidden'); renderCourseFilterPills(); } else { courseFilterSection.classList.add('hidden'); }
+      renderListings();
+    };
+
+    window.filterListings = function() { renderListings(); };
+
+    window.renderListings = function() {
+      const grid = document.getElementById('listingsGrid');
+      const sponsoredSec = document.getElementById('sponsoredSection');
+      const carouselContainer = document.getElementById('sponsoredCarousel');
+      const searchTxt = document.getElementById('searchInput').value.toLowerCase();
+      const now = new Date();
+
+      if (carouselAnimId) cancelAnimationFrame(carouselAnimId);
+
+      const boostedItems = allListings.filter(item => {
+        if (!item.isBoosted || !item.boostExpiryDate) return false;
+        return new Date(item.boostExpiryDate) > now && !item.isDisabled;
+      }).sort((a, b) => new Date(b.boostExpiryDate) - new Date(a.boostExpiryDate));
+
+      if (boostedItems.length > 0) {
+        sponsoredSec.classList.remove('hidden');
+        const repeatedItems = [...boostedItems, ...boostedItems, ...boostedItems];
+        carouselContainer.innerHTML = repeatedItems.map(item => createSponsoredCardHTML(item, now)).join('');
+
+        let scrollSpeed = 0.6;
+        function startTicker() {
+          if (!carouselContainer) return;
+          carouselContainer.scrollLeft += scrollSpeed;
+          const singleSetWidth = carouselContainer.scrollWidth / 3;
+          if (carouselContainer.scrollLeft >= singleSetWidth) { carouselContainer.scrollLeft -= singleSetWidth; }
+          carouselAnimId = requestAnimationFrame(startTicker);
+        }
+        carouselContainer.onmouseenter = () => cancelAnimationFrame(carouselAnimId);
+        carouselContainer.onmouseleave = () => startTicker();
+        startTicker();
+      } else {
+        sponsoredSec.classList.add('hidden');
+      }
+      
+      const filtered = allListings.filter(item => {
+        const itemSeller = (item.seller || '').toLowerCase();
+        const isOwner = currentUser && (currentUser.toLowerCase() === itemSeller || currentUser.includes(itemSeller) || itemSeller.includes(currentUser));
+        if (item.isDisabled && !isOwner && !isFounderUser) return false;
+
+        const matchesCategory = currentCategory === 'all' || item.category === currentCategory;
+        let matchesCourse = true;
+        if (currentCategory === 'academic' && selectedCourses.size > 0) {
+          matchesCourse = selectedCourses.has(item.courseId);
+        }
+
+        const matchesSearch = (item.title || '').toLowerCase().includes(searchTxt) || (item.desc || '').toLowerCase().includes(searchTxt) || (item.courseNick || '').toLowerCase().includes(searchTxt) || (item.category || '').toLowerCase().includes(searchTxt);
+        return matchesCategory && matchesCourse && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-16 text-center grab-card rounded-3xl p-8 border border-slate-200"><i class="fa-solid fa-box-open text-4xl mb-3 text-emerald-500"></i><h4 class="text-base font-black text-slate-900 mb-1">No products available</h4><p class="text-xs text-slate-500 max-w-sm mx-auto mb-4">No items matching your criteria right now.</p></div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => createCardHTML(item)).join('');
+    };
+
+    function createSponsoredCardHTML(item, now) {
+      const rawContact = item.contact || '';
+      const contactHref = rawContact.startsWith('http') ? rawContact : `https://wa.me/${rawContact.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(item.seller || 'Seller')},%20I%20saw%20your%20sponsored%20ad%20on%20APM:%20${encodeURIComponent(item.title || 'Item')}`;
+      const safePrice = Number(item.price) || 0;
+      const diffMs = new Date(item.boostExpiryDate) - now;
+      const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+      return `<div class="shrink-0 w-64 sm:w-72 boosted-card rounded-2xl overflow-hidden p-3 flex flex-col justify-between relative shadow-lg"><div><div class="relative w-full h-36 rounded-xl overflow-hidden bg-slate-100 mb-2"><img src="${item.image || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800'}" alt="${item.title}" class="w-full h-full object-cover"><span class="absolute top-2 left-2 bg-amber-500 text-slate-950 font-black text-[8px] py-0.5 px-2 rounded-md uppercase tracking-wider shadow-md"><i class="fa-solid fa-bolt"></i> SPONSORED</span><span class="absolute bottom-2 right-2 bg-slate-900/90 text-amber-400 font-bold text-[9px] py-0.5 px-2 rounded-md shadow-md backdrop-blur-sm"><i class="fa-solid fa-clock"></i> ${diffHrs}h ${diffMins}m</span></div><h4 class="font-black text-xs text-slate-900 truncate mb-0.5">${item.title}</h4><p class="text-[10px] text-emerald-700 font-extrabold mb-2">RM ${safePrice.toFixed(2)}</p></div><a href="${contactHref}" target="_blank" onclick="handleChatClick('${item.id}', '${contactHref}')" class="w-full py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center space-x-1.5"><i class="fa-brands fa-whatsapp text-sm"></i><span>BUY NOW & CHAT</span></a></div>`;
+    }
+
+    function createCardHTML(item) {
+      const rawContact = item.contact || '';
+      const contactHref = rawContact.startsWith('http') ? rawContact : `https://wa.me/${rawContact.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(item.seller || 'Seller')},%20I%20am%20interested%20in%20your%20listing:%20${encodeURIComponent(item.title || 'Item')}`;
+      const safePrice = Number(item.price) || 0;
+      const itemSeller = item.seller || 'AIMST Member';
+      const isOwner = currentUser && (currentUser.toLowerCase() === itemSeller.toLowerCase() || currentUser.includes(itemSeller));
+      const isExpanded = expandedDescIds.has(item.id);
+      const fullDesc = item.desc || 'No details provided.';
+      const shouldTruncate = fullDesc.length > 55;
+      const wishlist = getWishlist();
+      const isWishlisted = wishlist.includes(item.id);
+      const isRental = item.category === 'rentals';
+      const priceUnit = isRental ? '/ day' : '';
+
+      const courseBadge = item.courseNick ? `<span class="absolute top-8 left-2.5 px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-800 text-[8px] font-black uppercase tracking-wider shadow-sm border border-emerald-200">${item.courseNick}</span>` : '';
+
+      return `<div class="grab-card rounded-2xl overflow-hidden transition-all group flex flex-col justify-between relative text-left"><div><div class="relative w-full aspect-square overflow-hidden bg-slate-100"><img src="${item.image || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800'}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-300"><span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-lg bg-white/95 backdrop-blur-md text-[9px] font-extrabold uppercase tracking-wider text-slate-800 shadow-sm border border-slate-200">${item.category === 'rentals' ? 'Belongings Rental' : (item.category || 'general')}</span>${courseBadge}<button onclick="toggleWishlist('${item.id}')" title="Save to Favourite" class="absolute top-2.5 right-2.5 z-20 w-7 h-7 rounded-full bg-white/95 backdrop-blur-md shadow-md flex items-center justify-center transition-all hover:scale-110"><i class="fa-solid fa-heart ${isWishlisted ? 'text-rose-500' : 'text-slate-300'} text-xs"></i></button>${(isFounderUser || isOwner) ? `<button onclick="terminateListing('${item.id}')" class="absolute top-11 right-2.5 px-2 py-0.5 rounded-lg bg-rose-600 text-white font-bold text-[9px] shadow-md hover:bg-rose-700 z-10 transition-all">${isFounderUser ? 'TERMINATE' : 'Delete'}</button>` : ''}</div><div class="p-2.5 sm:p-3"><h4 class="font-bold text-xs sm:text-sm text-slate-900 mb-1 line-clamp-2 leading-snug">${item.title || 'Item Title'}</h4><div class="text-[10px] text-slate-500 mb-2 leading-relaxed">${isExpanded || !shouldTruncate ? fullDesc : fullDesc.substring(0, 55) + '...'}${shouldTruncate ? `<button onclick="toggleDescription('${item.id}')" class="text-emerald-700 font-bold hover:underline ml-1 focus:outline-none">${isExpanded ? 'Show Less' : 'Show More'}</button>` : ''}</div><div class="flex items-baseline justify-between mb-1"><div class="flex items-baseline space-x-1"><span class="text-[10px] text-emerald-600 font-bold">RM</span><span class="text-base sm:text-lg font-black text-emerald-700 leading-none">${safePrice.toFixed(2)}</span>${priceUnit ? `<span class="text-[9px] text-slate-500 font-bold">${priceUnit}</span>` : ''}</div><span class="text-[9px] text-slate-400 flex items-center space-x-1"><i class="fa-solid fa-location-dot text-emerald-500 text-[8px]"></i><span>AIMST</span></span></div></div></div><div class="p-2.5 sm:p-3 pt-0 mt-auto"><div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-1 text-[10px]"><span class="text-slate-600 truncate max-w-[50%] font-semibold">${itemSeller}</span><div class="flex items-center space-x-1 shrink-0">${(isOwner || isFounderUser) ? `<button onclick="markItemSold('${item.id}')" class="px-2 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-emerald-600 hover:text-white font-bold text-[9px] transition-all border border-slate-200">Sold</button>` : ''}<button onclick="handleChatClick('${item.id}', '${contactHref}')" class="px-2 py-1 rounded-xl bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 font-bold transition-all border border-slate-200 flex items-center space-x-1 text-[10px] shadow-sm"><i class="fa-brands fa-whatsapp text-xs"></i><span>Chat</span></button></div></div></div></div>`;
+    }
+
+    window.renderClubs = function() {
+      const grid = document.getElementById('clubsGrid');
+      grid.innerHTML = allClubs.map(club => {
+        const contactHref = (club.contact || '').startsWith('http') ? club.contact : `https://wa.me/${(club.contact || '').replace(/[^0-9]/g, '')}`;
+        return `<div class="grab-card rounded-2xl p-3.5 transition-all flex flex-col justify-between relative"><div><div class="flex items-center justify-between mb-2.5"><div class="flex items-center space-x-2.5">${club.logo ? `<img src="${club.logo}" alt="${club.name}" class="w-10 h-10 rounded-2xl object-cover border border-slate-200 shrink-0 shadow-sm">` : `<div class="w-10 h-10 rounded-2xl bg-teal-50 border border-teal-200 text-teal-600 flex items-center justify-center font-bold shrink-0"><i class="fa-solid fa-users text-base"></i></div>`}<div class="min-w-0"><h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight truncate">${club.name}</h4><span class="text-[9px] text-teal-600 uppercase tracking-wider font-bold">${club.category}</span></div></div></div><p class="text-[11px] text-slate-600 leading-relaxed mb-3 line-clamp-2">${club.desc}</p></div><a href="${contactHref}" target="_blank" class="w-full py-2 rounded-xl bg-teal-50 hover:bg-teal-600 hover:text-white text-teal-700 font-bold border border-teal-200 text-xs transition-all flex items-center justify-center space-x-1.5 shadow-sm"><i class="fa-brands fa-whatsapp text-xs"></i><span>Join via WhatsApp</span></a></div>`;
+      }).join('');
+    };
+
+    window.renderSellerManagerTable = async function() {
+      await loadSellers(); await loadListings();
+      const searchPendingBoosts = (document.getElementById('searchPendingBoostsInput')?.value || '').toLowerCase();
+      const searchPendingPro = (document.getElementById('searchPendingProInput')?.value || '').toLowerCase();
+      const searchPendingStudents = (document.getElementById('searchPendingStudentsInput')?.value || '').toLowerCase();
+      const searchVerified = (document.getElementById('sellerSearchInput')?.value || '').toLowerCase();
+
+      const pendingBoostsContainer = document.getElementById('pendingBoostsContainer');
+      const pendingProContainer = document.getElementById('pendingProContainer');
+      const pendingContainer = document.getElementById('pendingSellersContainer');
+      const tbody = document.getElementById('sellersTableBody');
+      const now = new Date();
+
+      const pendingBoosts = allListings.filter(i => i.boostStatus === 'pending' && (i.title.toLowerCase().includes(searchPendingBoosts) || (i.seller||'').toLowerCase().includes(searchPendingBoosts)));
+      document.getElementById('pendingBoostsCountBadge').innerText = `${pendingBoosts.length} Pending`;
+      pendingBoostsContainer.innerHTML = pendingBoosts.length === 0 ? `<p class="text-[11px] text-amber-800 italic">No matching pending ad boosts.</p>` : pendingBoosts.map(i => `<div class="bg-white p-2.5 rounded-xl border border-amber-300 flex items-center justify-between text-xs"><div><span class="font-extrabold text-slate-900 block">${i.title}</span><span class="text-[10px] text-slate-500">Seller: ${i.seller} | Requested: ${i.boostRequestedDays || 1} Day(s)</span></div><div class="space-x-1 shrink-0"><button onclick="approveBoost('${i.id}')" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-[10px]">Accept</button><button onclick="rejectBoost('${i.id}')" class="px-2.5 py-1 rounded-lg bg-rose-600 text-white font-bold text-[10px]">Reject</button></div></div>`).join('');
+
+      const pendingProSellers = allSellers.filter(s => s.proUpgradeStatus === 'pending' && (s.username.toLowerCase().includes(searchPendingPro) || s.email.toLowerCase().includes(searchPendingPro)));
+      document.getElementById('pendingProCountBadge').innerText = `${pendingProSellers.length} Pending`;
+      pendingProContainer.innerHTML = pendingProSellers.length === 0 ? `<p class="text-[11px] text-purple-800 italic">No matching pending pro upgrades.</p>` : pendingProSellers.map(s => `<div class="bg-white p-2.5 rounded-xl border border-purple-300 flex items-center justify-between text-xs"><div><span class="font-extrabold text-slate-900 block">${s.username}</span><span class="text-[10px] text-slate-500">${s.email} | Pro Tier (RM5)</span></div><div class="space-x-1 shrink-0"><button onclick="approveProUpgrade('${s.id}')" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-[10px]">Accept</button><button onclick="rejectProUpgrade('${s.id}')" class="px-2.5 py-1 rounded-lg bg-rose-600 text-white font-bold text-[10px]">Reject</button></div></div>`).join('');
+
+      const pendingStudents = allSellers.filter(s => !s.isVerified && (s.username.toLowerCase().includes(searchPendingStudents) || s.email.toLowerCase().includes(searchPendingStudents)));
+      document.getElementById('pendingCountBadge').innerText = `${pendingStudents.length} Pending`;
+      pendingContainer.innerHTML = pendingStudents.length === 0 ? `<p class="text-[11px] text-amber-800 italic">No matching pending students.</p>` : pendingStudents.map(s => `<div class="bg-white p-2.5 rounded-xl border border-amber-300 flex items-center justify-between text-xs"><div><span class="font-extrabold text-slate-900 block">${s.username}</span><span class="text-[10px] text-slate-500">${s.email}</span></div><div class="space-x-1 shrink-0"><button onclick="approveSeller('${s.id}')" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-[10px]">Accept</button><button onclick="rejectSeller('${s.id}')" class="px-2.5 py-1 rounded-lg bg-rose-600 text-white font-bold text-[10px]">Reject</button></div></div>`).join('');
+
+      tbody.innerHTML = allSellers.filter(s => s.isVerified && (s.username.toLowerCase().includes(searchVerified) || s.email.toLowerCase().includes(searchVerified))).map(seller => {
+        let tierDisplay = `<span class="px-2 py-1 rounded-lg text-[9px] font-black uppercase bg-slate-100 text-slate-700">FREE</span>`;
+        if (seller.tier === 'pro') {
+          if (seller.proExpiryDate) {
+            const exp = new Date(seller.proExpiryDate);
+            if (exp > now) {
+              const diffMs = exp - now; const days = Math.floor(diffMs / (1000 * 60 * 60 * 24)); const hrs = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              tierDisplay = `<div class="flex flex-col items-center"><span class="px-2 py-0.5 rounded-lg text-[9px] font-black uppercase bg-amber-100 text-amber-900 mb-0.5">PRO</span><span class="text-[9px] font-bold text-amber-700">${days > 0 ? days + 'd ' : ''}${hrs}h left</span></div>`;
+            } else { seller.tier = 'free'; tierDisplay = `<span class="px-2 py-1 rounded-lg text-[9px] font-black uppercase bg-slate-100 text-slate-700">EXPIRED</span>`; }
+          } else { tierDisplay = `<span class="px-2 py-1 rounded-lg text-[9px] font-black uppercase bg-amber-100 text-amber-900">PRO</span>`; }
+        }
+        return `<tr class="hover:bg-slate-50 transition-all"><td class="p-3"><div class="font-bold text-slate-900">${seller.username}</div><div class="text-[10px] text-slate-400">${seller.email}</div></td><td class="p-3 text-center">${tierDisplay}</td><td class="p-3 text-right"><button onclick="rejectSeller('${seller.id}')" class="px-2 py-1 rounded-xl bg-rose-600 text-white text-[10px] font-bold">Revoke</button></td></tr>`;
+      }).join('');
+    };
+
+    window.approveSeller = async function(id) {
+      const s = allSellers.find(x => x.id === id);
+      if (s) { 
+        s.isVerified = true; 
+        try {
+          incrementQuota('write');
+          await updateDoc(doc(db, "verified_sellers", id), { isVerified: true });
+        } catch(e) { 
+          try {
+            incrementQuota('write');
+            await setDoc(doc(db, "verified_sellers", id), s);
+          } catch(err) {} 
+        }
+        syncLocalStorage(); renderSellerManagerTable(); alert(`Successfully verified ${s.username}!`); 
+      }
+    };
+
+    window.rejectSeller = async function(id) {
+      allSellers = allSellers.filter(x => x.id !== id);
+      try {
+        incrementQuota('delete');
+        await deleteDoc(doc(db, "verified_sellers", id));
+      } catch(e){}
+      syncLocalStorage(); renderSellerManagerTable();
+    };
+
+    window.terminateListing = async function(id) {
+      if (!confirm("Delete listing?")) return;
+      try {
+        incrementQuota('delete');
+        await deleteDoc(doc(db, "listings", id));
+        allListings = allListings.filter(item => item.id !== id);
+        renderListings(); renderMyProductsTab(); updateMetrics();
+      } catch (e) { alert("Error: " + e.message); }
+    };
+
+    window.markItemSold = async function(id) {
+      if (!confirm("Mark as sold?")) return;
+      try {
+        incrementQuota('delete');
+        await deleteDoc(doc(db, "listings", id));
+        allListings = allListings.filter(item => item.id !== id);
+        soldCount += 1; syncLocalStorage(); renderListings(); renderMyProductsTab(); updateMetrics();
+      } catch (e) { alert("Error: " + e.message); }
+    };
+
+    window.handleLogin = async function() {
+      const email = document.getElementById('loginUser').value.trim().toLowerCase();
+      const pass = document.getElementById('loginPass').value.trim();
+      const formatted = email.includes('@') ? email : `${email}@apm.com`;
+      try { await signInWithEmailAndPassword(auth, formatted, pass); closeAuthModal(); } catch (err) {
+        document.getElementById('loginError').innerText = "Invalid credentials.";
+        document.getElementById('loginError').classList.remove('hidden');
+      }
+    };
+
+    window.openAuthModal = function() { document.getElementById('authModal').classList.remove('hidden'); };
+    window.closeAuthModal = function() { document.getElementById('authModal').classList.add('hidden'); };
+    window.performLogout = function() { signOut(auth).then(() => { applyUserTheme(false); switchMainTab('home'); }); };
+
+    window.openSellerManagerModal = function() { renderSellerManagerTable(); document.getElementById('sellerManagerModal').classList.remove('hidden'); };
+    window.closeSellerManagerModal = function() { document.getElementById('sellerManagerModal').classList.add('hidden'); };
+    window.openUpgradeModal = function() { document.getElementById('upgradeModal').classList.remove('hidden'); };
+    window.closeUpgradeModal = function() { document.getElementById('upgradeModal').classList.add('hidden'); };
+
+    window.openAddListingModal = function() {
+      if (!currentUser) { 
+        alert("🔒 Login Required!\n\nPlease register/log in as a Verified APM Buyer/Seller to publish new items."); 
+        openAuthModal(); 
+        return; 
+      }
+
+      const sellerProfile = allSellers.find(s => (s.email || '').toLowerCase() === currentUserEmail);
+      const isPro = sellerProfile && sellerProfile.tier === 'pro';
+
+      const founderEmails = ['keventhiran_e25101420@apm.com', 'taarisini_e25101220@apm.com'];
+      const isFounder = founderEmails.includes((currentUserEmail || '').toLowerCase());
+
+      if (!isFounder) {
+        const maxAllowed = isPro ? 7 : 3;
+        const myListings = allListings.filter(item => {
+          const itemSeller = (item.seller || '').toLowerCase();
+          return currentUser && (currentUser.toLowerCase() === itemSeller || currentUser.includes(itemSeller));
+        });
+
+        if (myListings.length >= maxAllowed) {
+          if (!isPro) { 
+            alert(`⚠️ Active Listing Limit Reached!\n\nFree Tier sellers can list up to 3 active products. Upgrade to Pro Tier (RM5/month) for 7 listings!`); 
+            openUpgradeModal(); 
+          } else { 
+            alert(`⚠️ Maximum Listing Exceeded!\n\nYou have reached the absolute maximum limit of 7 active listings.`); 
+          }
+          return;
+        }
+      }
+
+      document.getElementById('sellerTierIndicator').innerText = isFounder ? 'Founder Unlimited Access Unlocked 🚀' : `Your Tier: ${isPro ? 'Pro Tier (Up to 7 Listings)' : 'Free Tier (Up to 3 Listings)'}`;
+      document.getElementById('categorySelect').value = 'academic';
+      onCategoryChange();
+      document.getElementById('addListingModal').classList.remove('hidden');
+    };
+
+    window.closeAddListingModal = function() { 
+      document.getElementById('addListingModal').classList.add('hidden'); 
+    };
+
+    window.handlePostListing = async function(e) {
+      if (e) e.preventDefault();
+      const submitBtn = document.getElementById('publishListingSubmitBtn');
+      const title = sanitizeInput(document.getElementById('itemTitle').value);
+      const price = parseFloat(document.getElementById('itemPrice').value) || 0;
+      const contact = sanitizeInput(document.getElementById('itemContact').value);
+      const desc = sanitizeInput(document.getElementById('itemDesc').value);
+      const category = document.getElementById('categorySelect').value;
+      let courseId = 'general', courseName = 'General', courseNick = 'General';
+
+      if (category === 'academic') {
+        courseId = document.getElementById('itemCourseSelect').value;
+        const matched = AIMST_COURSES.find(c => c.id === courseId);
+        if (matched) { courseName = matched.name; courseNick = matched.nick; }
+      }
+
+      const fileInput = document.getElementById('itemImageFile');
+      if (!fileInput.files[0]) { alert("Please select a product photo!"); return; }
+
+      try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Processing Image & Publishing...</span>`;
+        }
+
+        const file = fileInput.files[0];
+        const base64Image = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+          reader.readAsDataURL(file);
+        });
+
+        const newItem = { 
+          title, 
+          category, 
+          courseId, 
+          courseName, 
+          courseNick, 
+          price, 
+          contact, 
+          image: base64Image, 
+          desc, 
+          seller: currentUser, 
+          isDisabled: false, 
+          isBoosted: false,
+          createdAt: new Date().toISOString()
+        };
+
+        incrementQuota('write');
+        const docRef = await addDoc(collection(db, "listings"), newItem);
+        newItem.id = docRef.id;
+        allListings.unshift(newItem);
+
+        try {
+          incrementQuota('write');
+          await addDoc(collection(db, "payment_alerts"), {
+            type: "New Product Listing", seller: currentUser, email: currentUserEmail, title: title, amount: price.toFixed(2), createdAt: new Date().toISOString()
+          });
+        } catch(e){}
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>Publish Listing</span>`;
+        }
+
+        renderListings();
+        renderMyProductsTab();
+        updateMetrics();
+
+        closeAddListingModal();
+        document.getElementById('listingForm').reset();
+        document.getElementById('imagePreviewContainer').classList.add('hidden');
+
+        setTimeout(() => {
+          alert("Published listing successfully!");
+        }, 50);
+
+      } catch (err) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>Publish Listing</span>`;
+        }
+        console.error("Publish listing error:", err);
+        alert("Upload Error: " + err.message);
+      }
+    };
+
+    window.handlePostClub = async function(e) {
+      if (e) e.preventDefault();
+      const submitBtn = document.getElementById('saveClubSubmitBtn');
+      const name = sanitizeInput(document.getElementById('clubName').value);
+      const category = sanitizeInput(document.getElementById('clubCategory').value);
+      const contact = sanitizeInput(document.getElementById('clubContact').value);
+      const desc = sanitizeInput(document.getElementById('clubDesc').value);
+      const fileInput = document.getElementById('clubLogoFile');
+
+      try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Saving club...</span>`;
+        }
+
+        let logo = "";
+        if (fileInput.files[0]) {
+          const file = fileInput.files[0];
+          logo = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+          });
+        }
+
+        const newClub = { name, category, contact, desc, logo, createdBy: currentUser };
+        incrementQuota('write');
+        const docRef = await addDoc(collection(db, "clubs"), newClub);
+        newClub.id = docRef.id;
+        allClubs.unshift(newClub);
+        syncLocalStorage();
+        renderClubs();
+        closeAddClubModal();
+        document.getElementById('clubForm').reset();
+        alert("Club saved successfully!");
+      } catch (err) {
+        alert("Save Error: " + err.message);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Save Club";
+        }
+      }
+    };
+
+    document.getElementById('itemImageFile')?.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          document.getElementById('imagePreview').src = ev.target.result;
+          document.getElementById('imagePreviewContainer').classList.add('block');
+          document.getElementById('imagePreviewContainer').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    loadData();
+  </script>
+</body>
+</html>
